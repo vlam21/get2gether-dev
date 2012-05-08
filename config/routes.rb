@@ -3,6 +3,8 @@ Get2gether::Application.routes.draw do
 
   get "my_pages/help"
 
+  root :to => 'my_pages#home'
+
   resources :user_interests
 
   resources :interests
