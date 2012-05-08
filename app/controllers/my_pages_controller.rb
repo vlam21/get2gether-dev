@@ -22,6 +22,10 @@ class MyPagesController < ApplicationController
     
   end
 
+  def maps
+
+  end
+
   def help
   end
 end
