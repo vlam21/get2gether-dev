@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Fbid:</b>
+  <%= @user_interest.fbid %>
+</p>
+
+<p>
+  <b>Interestid:</b>
+  <%= @user_interest.interestid %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_interest_path(@user_interest) %> |
+<%= link_to 'Back', user_interests_path %>
