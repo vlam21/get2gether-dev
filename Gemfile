@@ -22,6 +22,11 @@ gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
 
+gem 'koala'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'faraday'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
