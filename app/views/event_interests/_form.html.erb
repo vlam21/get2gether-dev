@@ -1,0 +1,25 @@
+<%= form_for(@event_interest) do |f| %>
+  <% if @event_interest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event_interest.errors.count, "error") %> prohibited this event_interest from being saved:</h2>
+
+      <ul>
+      <% @event_interest.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :fbeventid %><br />
+    <%= f.number_field :fbeventid %>
+  </div>
+  <div class="field">
+    <%= f.label :interestid %><br />
+    <%= f.number_field :interestid %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
