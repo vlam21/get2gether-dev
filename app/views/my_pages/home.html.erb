@@ -1,5 +1,14 @@
 <h1>MyPages#home</h1>
-<p>Find me in app/views/my_pages/home.html.erb</p>
+<p></p>
+<%= "Hello, #{@user['name']}" %>
+<br>
+<%= link_to "Create event", create_event_path %>
+<br>
 <%=
-  @user
+s = "Your interests are: "
+UserInterest.find_all_by_fbid(@user['id']).each do |x|
+  s += Interest.find(x.interestid).name
+end
+s
+#Interest.find_by_fbid(@user['id'])
 %>

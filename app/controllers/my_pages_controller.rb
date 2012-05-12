@@ -18,6 +18,10 @@ class MyPagesController < ApplicationController
     end
   end
 
+  def create_event
+    
+  end
+
   def help
   end
 end
