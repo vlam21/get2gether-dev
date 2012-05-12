@@ -3,7 +3,7 @@ Get2gether::Application.routes.draw do
   get "my_pages/create_event"
   get "my_pages/help"
 
-  match '/',              to: 'my_pages#home'
+  root :to => 'my_pages#home'
   match '/home',          to: 'my_pages#home'
   match '/create_event',  to: 'my_pages#create_event'
 

@@ -1,14 +1,75 @@
-<h1>MyPages#home</h1>
-<p></p>
-<%= "Hello, #{@user['name']}" %>
-<br>
-<%= link_to "Create event", create_event_path %>
-<br>
-<%=
-s = "Your interests are: "
-UserInterest.find_all_by_fbid(@user['id']).each do |x|
-  s += Interest.find(x.interestid).name
-end
-s
-#Interest.find_by_fbid(@user['id'])
-%>
+<head>
+
+	<title>Get2Gether</title>
+	
+	<meta charset="UTF-8">
+	
+	<link rel="stylesheet" href="/stylesheets/my_pages.css.scss">
+	
+		<div class="frontlogo">
+			<img class="logo" src="/assets/front_logo.png" alt"" >
+		</div>
+        <ul class="group" id="example-two">
+      <li><%= link_to "Create Event", create_event_path %></li>
+			<li><a rel="#98CEAA" href="#" id="clicked2">Maps</a></li>
+			<li><a rel="#98CEAA" href="#" id="clicked3">Explore</a></li>
+        </ul>
+	
+	
+</head>
+
+<body>
+		
+<div id="content">
+	<div class="msg">
+	<p> Input your interests: </p></br>
+	</div>
+	<div class="textbox">
+	<form name="input" action="" method="">
+	<input type="text"/></br></br>
+	<div class="submitBt">
+	<input type="submit" value="Submit" />
+	</div></br>
+	</form>
+	</div>
+
+	<!--
+	<div class="aside2">
+		<div class="module2 blue">
+		<h2>Interests Subscribed<a href="#"></a></h2>
+		<div class = "hashtagfont">
+		Party <div class="xfont">X</div></br>
+		Gym <div class="xfont">X</div></bri>
+		</div>
+		</div>		
+	</div>
+	-->
+</div>
+	<div class="aside">	
+	<div class="module blue">
+		<h2>CSE Day<a href="#">Free Food</a></h2>
+		<ul>
+			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+			<li>Aliquam tincidunt mauris eu risus.</li>
+			<li>Vestibulum auctor dapibus neque.</li>
+		</ul>
+	</div>		
+	<div class="module blue">
+		<h2>Sun God<a href="#">Party</a></h2>
+		<ul>
+			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+			<li>Aliquam tincidunt mauris eu risus.</li>
+			<li>Vestibulum auctor dapibus neque.</li>
+		</ul>
+	</div>
+			
+	<div class="module blue">
+		<h2>RIMAC<a href="#">Gym</a></h2>
+		<ul>
+			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+			<li>Aliquam tincidunt mauris eu risus.</li>
+			<li>Vestibulum auctor dapibus neque.</li>
+		</ul>
+	</div>    
+	</div>
+</body>
