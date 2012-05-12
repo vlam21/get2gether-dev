@@ -1,4 +1,10 @@
 Get2gether::Application.routes.draw do
+  resources :event_interests
+
+  resources :user_events
+
+  resources :events
+
   get "my_pages/home"
   get "my_pages/create_event"
   get "my_pages/maps"
