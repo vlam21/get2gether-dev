@@ -32,13 +32,6 @@ ActiveRecord::Schema.define(:version => 20120512012008) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "user_events", :force => true do |t|
-    t.integer  "fbid"
-    t.integer  "fbeventid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "user_interests", :force => true do |t|
     t.integer  "fbid"
     t.integer  "interestid"

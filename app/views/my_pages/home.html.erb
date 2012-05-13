@@ -4,7 +4,7 @@
 	
 	<meta charset="UTF-8">
 	
-	<link rel="stylesheet" href="/stylesheets/my_pages.css.scss">
+	<link rel="stylesheet" href="/assets/my_pages.css.scss">
 	
 		<div class="frontlogo">
 			<img class="logo" src="/assets/front_logo.png" alt"" >
@@ -19,7 +19,7 @@
 </head>
 
 <body>
-		
+
 <div id="content">
 	<div class="msg">
 	<p> Input your interests: </p></br>
@@ -72,4 +72,10 @@
 		</ul>
 	</div>    
 	</div>
+<div>
+  <%=
+    session[:userid]
+  %>	
+</div>
+
 </body>

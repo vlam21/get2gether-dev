@@ -15,11 +15,21 @@ class MyPagesController < ApplicationController
       access_token = @oauth.get_access_token(code)
       @graph = Koala::Facebook::API.new(access_token)
       @user = @graph.get_object("me")
-    end
-  end
+      
+      #putting id in session
+      session[:user] = @user['id']
+      session[:graph] = @graph
+      
+      userid = @user['id']
+      name = @user['name']
+      
+      #if user is new, insert in db
+      if User.find_by_fbid(userid) == nil
+        @newUser = User.new(fbid:userid, name:name)
+        @newUser.save
+      end
 
-  def create_event
-    
+    end
   end
 
   def maps
