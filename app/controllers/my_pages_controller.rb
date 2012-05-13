@@ -17,7 +17,7 @@ class MyPagesController < ApplicationController
       @user = @graph.get_object("me")
       
       #putting id in session
-      session[:user] = @user['id']
+      session[:fbid] = @user['id']
       session[:graph] = @graph
       
       userid = @user['id']
