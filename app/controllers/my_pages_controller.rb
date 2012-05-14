@@ -33,7 +33,7 @@ class MyPagesController < ApplicationController
   end
 
   def maps
-
+    @events = Event.all
   end
 
   def help

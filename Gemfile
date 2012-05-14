@@ -22,6 +22,8 @@ gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
 
+gem 'rb-readline'
+
 gem 'koala'
 gem 'omniauth'
 gem 'omniauth-facebook'
