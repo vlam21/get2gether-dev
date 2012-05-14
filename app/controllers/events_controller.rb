@@ -40,7 +40,18 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
+    # Tutorial for creating fb events through Koala:
+    # http://horserumble.com/creating-facebook-events-with-koala
+
+    # @event = Event.new
+    # event_params = {
+    #   :name => params[:eventname]
+    #   :description => params[:description]
+    # }
+    # fbevent_info = session[:graph].put_object('me', 'events', event_params)
+    #@event.fbeventid = fbevent_info[:id]
+    return
+
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
