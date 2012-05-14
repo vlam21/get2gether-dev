@@ -43,13 +43,27 @@ class EventsController < ApplicationController
     # Tutorial for creating fb events through Koala:
     # http://horserumble.com/creating-facebook-events-with-koala
 
-    # @event = Event.new
+    @event = Event.new
+
     # event_params = {
     #   :name => params[:eventname]
     #   :description => params[:description]
     # }
     # fbevent_info = session[:graph].put_object('me', 'events', event_params)
     #@event.fbeventid = fbevent_info[:id]
+
+    # tags = [params[:tag1], params[:tag2], params[:tag3]]
+    # tags.each do |tag|
+    #   next if tag.strip.empty
+    #   tag.downcase!
+    #   interest = @Interest.find_by_name(tag)
+    #   if interest == nil
+    #     interest = Interest.new({ :name => tag })
+    #     interest.save
+    #   end
+    #   EventInterest.new({ :fbeventid => @event.fbeventid, :interestid => interest.id }).save
+    # end
+
     return
 
     respond_to do |format|
