@@ -4,13 +4,12 @@ Get2gether::Application.routes.draw do
   resources :events
 
   get "my_pages/home"
-  get "my_pages/create_event"
   get "my_pages/maps"
   get "my_pages/help"
 
   root :to => 'my_pages#home'
   match '/home',          to: 'my_pages#home'
-  match '/create_event',  to: 'my_pages#create_event'
+  match '/create_event',  to: 'events#create'
   match '/maps',  to: 'my_pages#maps'
 
   resources :user_interests
