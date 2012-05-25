@@ -32,6 +32,27 @@ class MyPagesController < ApplicationController
     end
   end
 
+  def new_user_tag
+    @interest = Interest.new
+    #print params[:input], "<----*******************"
+    @interest.name = params[:interest]
+    @interest.save
+    @user_interest = UserInterest.new
+    @user_interest.fbid = params[:fbid]
+    @user_interest.interestid = @interest.id
+    @user_interest.save
+    redirect_to '/home'
+  end
+ 
+  def del_user_tag
+    interestid =  params[:interest] 
+    user_interest = UserInterest.find_by_fbid_and_interestid(params[:fbid], interestid) 
+    user_interest.destroy
+    redirect_to '/home'
+  end
+
+
+
   def maps
 
   end

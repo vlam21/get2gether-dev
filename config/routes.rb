@@ -7,12 +7,16 @@ Get2gether::Application.routes.draw do
   get "my_pages/create_event"
   get "my_pages/maps"
   get "my_pages/help"
+  get "my_pages/new_user_tag"
+  get "my_pages/del_user_tag"
 
   root :to => 'my_pages#home'
   match '/home',          to: 'my_pages#home'
   match '/create_event',  to: 'my_pages#create_event'
   match '/maps',  to: 'my_pages#maps'
-
+  match '/new_user_tag', to:'my_pages#new_user_tag'
+  match '/del_user_tag', to:'my_pages#del_user_tag'
+  
   resources :user_interests
   resources :interests
   resources :users
