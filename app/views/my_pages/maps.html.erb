@@ -1,189 +1,229 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
-	<title>Google Map Slider</title>
-	
+	<title>nobody reads this</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	
-	<!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
   	
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script type="text/javascript" src="js/example.js"></script>
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
   
-  <script type="text/javascript">
-  
-    $(function() {
-    
-      var chicago = new google.maps.LatLng(41.924832, -87.697456),
-          pointToMoveTo, 
-          first = true,
-          curMarker = new google.maps.Marker({}),
-          $el;
-     
-      var myOptions = {
-          zoom: 10,
-          center: chicago,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-      
-      var map = new google.maps.Map($("#map_canvas")[0], myOptions);
-
-
-function select_event () {
-      
-        $el = $(this);
-                
-        if (!$el.hasClass("hover")) {
-        
-          $("#locations li").removeClass("hover");
-          $el.addClass("hover");
-        
-          if (!first) { 
-            
-            // Clear current marker
-            curMarker.setMap(); 
-            
-            // Set zoom back to Chicao level
-            map.setZoom(10);
-          }
-          // Move (pan) map to new location
-          pointToMoveTo = new google.maps.LatLng($el.attr("data-geo-lat"), $el.attr("data-geo-long"));
-
-
-	map.panTo(pointToMoveTo);
-          // Add new marker
-          curMarker = new google.maps.Marker({
-              position: pointToMoveTo,
-              map: map,
-              icon: "/marker.png"
-          });
-          // On click, zoom map
-          google.maps.event.addListener(curMarker, 'click', function() {
-             map.setZoom(14);
-          });
-          
-          // Fill more info area
-          $("#more-info")
-            .find("h2")
-              .html($el.find("h3").html())
-              .end()
-            .find("p")
-              .html($el.find(".longdesc").html());
-          
-          // No longer the first time through (re: marker clearing)        
-          first = false; 
-        }
-};
-
-   //map.panToasa (new google.maps.LatLng(71.924832, -87.697456));
-      $("#locations li").mouseenter(select_event);
-      
-      $("#locations li:first").trigger("mouseenter");
-      //map.panTo(chicago);
-    });
-
-
-  </script>
-
-</head><body>
-
-
-	<div id="page-wrap">
-	
-	   <h1>Google Maps Slider</h1>
-	   
-	   <ul id="locations">
-	<% @events.each do |ev| 
-		e = session[:graph].get_object(ev.fbeventid)
-	%>
-
-	<li id="<%= ev.fbeventid %>" data-geo-lat="39.864521" data-geo-long="-117.223649">
-	  <h3> <%= e['name'] %> </h3>
-	  <p>39.864521 -117.223649</p>
-	  <p class="longdesc"> 
-		<b>Host</b>: <%= e['owner']['name'] %> <br/>
-		<b>Start time</b>: <%= e['start_time'] %> <br/>
-		<b>End time</b>: <%= e['end_time'] %> <br/>
-		<b>Location</b>: <%= e['location'] %> <br/>
-		<b>Description</b>: <%= e['description'] %> 
-
-	  </p> 
-	</li>
-
 <script type="text/javascript">
+  
+$(function() {
+    
+function debug (str) {
+	$("#d").append(str + "<br/");
+}
 
-var fbid = "<%= ev.fbeventid %>";
-var address = "<%= e['location'] %>";
-var default_latLng = new google.maps.LatLng(32.881858, -117.233419)
-var geocoder = new google.maps.Geocoder();
-geocoder.geocode({'address': "<%= e['location'] %>", 'location': default_latLng}, function(result, stat) {
-	if(!stat) {
-		alert(address + " not found");
+	var cse_building = new google.maps.LatLng(32.881858, -117.233419),
+		pointToMoveTo, 
+		first = true,
+		curMarker = new google.maps.Marker({}),
+		$el;
+	var locations = $("#locations");
+     
+	var myOptions = {
+		zoom: 10,
+		center: cse_building,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map($("#map_canvas")[0], myOptions);
+
+	var eventsArray = [];
+	var ev;
+	<% @events.each do |ev| 
+	e = session[:graph].get_object(ev.fbeventid) %>
+	ev = new Object();
+	ev.fbeventid = "<%= ev.fbeventid %>";
+	ev.name = "<%= e['name'] %>";
+	ev.host = "<%= e['host'] %>";
+	ev.start = "<%= e['start_time'] %>";
+	ev.end = "<%= e['end_time'] %>";
+	ev.location = "<%= e['location'] %>";
+	/*ev.description = "<%= e['description'] %>";*/
+	eventsArray.push(ev);
+	<% end %>
+
+	var places = new google.maps.places.PlacesService(map);
+	var geo_count = 0;
+	//get_geo(0, eventsArray);
+	for(var i = 0; i < eventsArray.length; i++) {
+		get_geo(i, eventsArray);
 	}
-	else {
-		var loc = result[0]['geometry']['location'];
-		var li = $("#<%= ev.fbeventid %>");
-		li.attr("data-geo-lat",loc.lat());
-		li.attr("data-geo-long",loc.lng());
 
-		$("#"+fbid+" p:first").html("Asdf");
 
+function get_geo(geo_index, eventsArray) {
+	var e = eventsArray[geo_index];
+	var req = {
+		location: cse_building,
+		radius: '50000',
+		keyword: e.location
 	}
+	
+	places.search(req, function(result, status) {
+		var e = eventsArray[geo_index];
+		if(status == "ZERO_RESULTS") {
+			alert(e.location + " not found. id = " + e.fbeventid);
+			if(geo_index < eventsArray.length-1) {
+				get_geo(geo_index+1, eventsArray); 
+			}
+			else {
+				populate_events_list(eventsArray);
+			}
+		}
+		else {
+			var loc = result[0]['geometry']['location'];
+			e.lat = loc.lat();
+			e.lng = loc.lng();
+			/*if(geo_index < eventsArray.length-1) {
+				get_geo(geo_index+1, eventsArray); 
+			}
+			else {
+				populate_events_list(eventsArray);
+			}*/
+		}
+		geo_count++;
+		if(geo_count >= eventsArray.length) {
+			populate_events_list(eventsArray);
+		}
+
+	});
+}
+
+function create_event(e, eid) {
+	var li = $("<li>");
+	var title = $("<h3>");
+	var tags = $("<p>");
+	var desc = $("<p>");
+	li.attr("eid", eid);
+	title.html(e.name);
+
+	tags.html("tags go here");
+	tags.html(e.lat + " " + e.lng);	
+	
+	desc.addClass("longdesc");
+	if(e.host) desc.append($("<b>").html("Host"))
+		.append(": " + e.host).append("<br>");
+	if(e.start) desc.append($("<b>").html("Start time"))
+		.append(": " + e.start).append("<br>");
+	if(e.end) desc.append($("<b>").html("End time"))
+		.append(": " + e.end).append("<br>");
+	if(e.location) desc.append($("<b>").html("Location"))
+		.append(": " + e.location).append("<br>");
+	desc.append($("<b>").html("Description"))
+		.append(": " + $("#desc"+e.fbeventid).html()).append("<br>");
+
+	var ret = li.append(title).append(tags).append(desc);
+
+
+	//create_marker(new google.maps.LatLng(e.lat, e.lng), li);
+
+	return ret;
+}
+
+function create_marker(latlng, li) {
+	
+	curMarker = new google.maps.Marker({
+		position: latlng,
+		map: map,
+		icon: "/marker.png"
+	});
+	google.maps.event.addListener(curMarker, 'click', function() {
+		map.setZoom(14);
+		//select_event(li);
+	});
+}
+
+function populate_events_list(list) {
+	for(var i = 0; i < list.length; i++) {
+		locations.append(create_event(list[i], i));
+	}
+	$("#locations li").click(select_event);
+	$("#locations li:first").trigger("click");
+}
+
+
+function select_event ($el) {
+	$el = $(this);
+	//alert($(this));
+	/*if($el.target) {
+		var output = '';
+		for (var property in $el) {
+		  output += property + ': ' + $el[property]+'; <br/>';
+		}
+		debug(output);
+
+	}*/
+	var e = eventsArray[$el.attr("eid")];
+	if (!$el.hasClass("selected")) {
+        
+		$("#locations li").removeClass("selected");
+		$el.addClass("selected");
+		if (!first) { 
+			curMarker.setMap(); 
+			map.setZoom(10);
+		}
+		if(!(isNaN(e.lat) || isNaN(e.lng))) { 
+			pointToMoveTo = new google.maps.LatLng(e.lat, e.lng);
+			map.panTo(pointToMoveTo);
+			/*curMarker = new google.maps.Marker({
+				position: pointToMoveTo,
+				map: map,
+				icon: "/marker.png"
+			});
+			google.maps.event.addListener(curMarker, 'click', function() {
+				map.setZoom(14);
+			});*/
+			create_marker(pointToMoveTo, $el); 
+          	}
+		else {
+			map.panTo(cse_building);
+		}
+		$("#more-info")
+			.find("h2")
+				.html($el.find("h3").html())
+			.end()
+			.find("p")
+				.html($el.find(".longdesc").html());
+		first = false; 
+	}
+};
+	
 });
+
 
 </script>
 
+</head>
 
-
-	<%end%>
-
-        <!--<li data-geo-lat="41.9786" data-geo-long="-87.9047">
-          <h3>O'Hare Airport</h3>
-          <p>Flights n' stuff</p>
-          <p class="longdesc"><strong>About:</strong> O'Hare International Airport has been voted the "Best Airport in North America" for 10 years by two separate sources: Readers of the U.S. Edition of Business Traveler Magazine (1998-2003) and Global Traveler Magazine (2004-2007). Travel and Leisure magazine's 2009 "America's Favorite Cities" ranked Chicago's Airport System (O'Hare and Midway) the second-worst for delays, New York City's airport system (JFK, Newark Liberty, and LaGuardia) being the first.</p>
-        </li>
-        
-        <li data-geo-lat="41.927118" data-geo-long="-87.697621">
-          <h3>Bueno Terra</h3>
-          <p>World-class Italian</p>
-          <p class="longdesc"><strong>Random review:</strong> Get the carpaccio</p>
-        </li>
-        
-        <li data-geo-lat="41.921735" data-geo-long="-87.664688">
-          <h3>Pequod's Pizza</h3>
-          <p>Unique pan-style pizza</p>
-          <p class="longdesc"><strong>Random review:</strong> I ate there about a month ago now, and... I've just thought about it over and over again. I think they put something addictive in the food. LOL. The one thing I didn't like was the burnt edges, but... that's the style of pizza, and they nail that style perfectly, so...it's just a difference in ideology on that one. I have to let it slide. Best pizza in Chicago? I don't know. Definitely top 5 though.</p>
-        </li>
-        
-        <li data-geo-lat="41.927568" data-geo-long="-87.705201">
-          <h3>The Rocking Horse</h3>
-     
-     <p>Nice bar</p>
-          <p class="longdesc"><strong>Random review:</strong> The only thing you have to know about the Horse, TOTS. You get a Massive plate of these things. Seriously, it feeds 3, easy.  I get them cajun style, as ranch is just too salty for me.  And that garlic aoli it comes with is flippin' great!</p>
-        </li>-->
-        
-     </ul>
-
-     
-     <div id="more-info"><div>
-     
-        <h2>More Info</h2>
-        <p>Hover over location on the left. (JavaScript must be enabled)</p>
-     
-     </div></div>
-		
-<div id="map_canvas"></div>
+<body>
+<div id="page-wrap">
+	<h1>spam = maps backwards</h1>
+	<ul id="locations"></ul>
+	<div id="map_canvas"></div>
+	<div id="more-info">
+		<div>
 	
+			<h2>More Info</h2>
+			<p>Loading...</p>
+		</div>
 	</div>
-	
-     
+	&nbsp;	
+</div>
+<div id="d"></div>
+<% @events.each do |ev| 
+	e = session[:graph].get_object(ev.fbeventid) %>
+
+<div class="longdesc" id="desc<%=ev.fbeventid%>"> <%= e['description'] %> </div>
+
+<% end %>
+<br/>
 
 </body>
-
 </html>
