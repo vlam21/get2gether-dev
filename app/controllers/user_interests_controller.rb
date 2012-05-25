@@ -21,15 +21,16 @@ class UserInterestsController < ApplicationController
     end
   end
 
+
   # GET /user_interests/new
   # GET /user_interests/new.json
   def new
     @user_interest = UserInterest.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user_interest }
     end
+    
   end
 
   # GET /user_interests/1/edit

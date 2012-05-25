@@ -1,5 +1,12 @@
 <head>
-
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".x").click(function(){
+    $(this).submit();
+  });
+});
+</script>
 	<title>Get2Gether</title>
 	
 	<meta charset="UTF-8">
@@ -25,53 +32,62 @@
 	<p> Input your interests: </p></br>
 	</div>
 	<div class="textbox">
-	<form name="input" action="" method="">
-	<input type="text"/></br></br>
-	<div class="submitBt">
-	<input type="submit" value="Submit" />
-	</div></br>
+	<form name="input" action="/new_user_tag" method="post">
+		<input name="interest" type="text"/></br></br>
+                <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
 	</form>
 	</div>
 
-	<!--
+
+	
 	<div class="aside2">
 		<div class="module2 blue">
 		<h2>Interests Subscribed<a href="#"></a></h2>
 		<div class = "hashtagfont">
-		Party <div class="xfont">X</div></br>
-		Gym <div class="xfont">X</div></bri>
+                <% UserInterest.find_all_by_fbid(@user['id']).each do |ui| %>
+               
+                  <% i = Interest.find_by_id(ui.interestid)%>
+               <form class = "x" name= "<%=i.id %>" action="/del_user_tag" method="post">
+                   <input type ="hidden" name="interest" value=<%=i.id%> /> 
+                <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
+                   x
+                   <%=i.name %>
+               </form>
+                 </br>
+                <% end %>
 		</div>
 		</div>		
 	</div>
-	-->
+	
 </div>
-	<div class="aside">	
+ 
+ 	<div class="aside">	
+
+  <%
+    # Find events to suggest to the user.
+
+    user_interests = UserInterest.find_all_by_fbid(@user[:id])
+    interest_ids = user_interests.map { |ui| ui.interestid }
+    suggested_event_ids = []
+    interest_ids.each do |interest_id|
+      event_interests = EventInterest.find_all_by_interestid(interest_id)
+      event_interests.each { |ei| suggested_event_ids << ei.fbeventid }
+    end
+    suggested_event_ids.uniq! # removes duplicates
+    suggested_events = suggested_event_ids.map { |event_id| @graph.get_object(event_id) }
+
+    # suggested_events is now a list of hashes, each hash representing the fb
+    # event to display to the user
+  %>
+
 	<div class="module blue">
 		<h2>CSE Day<a href="#">Free Food</a></h2>
 		<ul>
-			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			<li>Aliquam tincidunt mauris eu risus.</li>
-			<li>Vestibulum auctor dapibus neque.</li>
+			<li>Event Name</li>
 		</ul>
 	</div>		
-	<div class="module blue">
-		<h2>Sun God<a href="#">Party</a></h2>
-		<ul>
-			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			<li>Aliquam tincidunt mauris eu risus.</li>
-			<li>Vestibulum auctor dapibus neque.</li>
-		</ul>
 	</div>
 			
-	<div class="module blue">
-		<h2>RIMAC<a href="#">Gym</a></h2>
-		<ul>
-			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			<li>Aliquam tincidunt mauris eu risus.</li>
-			<li>Vestibulum auctor dapibus neque.</li>
-		</ul>
-	</div>    
-	</div>
 <div>
   <%=
     session[:fbid]
