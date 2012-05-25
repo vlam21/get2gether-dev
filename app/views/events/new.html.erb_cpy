@@ -1,0 +1,98 @@
+
+<html>
+
+<h1>New event</h1>
+
+<form accept-charset="UTF-8" action="/events" class="new_event" id="new_event" method="post">
+  Name: <input type="text" name="eventname" /><br />
+  Description: <input type="text" name="description" /><br />
+
+  Start date:
+    <select name="startmonth">
+      <option value="Month">Month</option>
+      <% 1.upto(12) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+    <select name="startday">
+      <option value="Day">Day</option>
+      <% 1.upto(31) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+    <select name="startyear">
+      <option value="Year">Year</option>
+      <% 2012.upto(2016) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+  Start time:
+    <select name="starttime">
+      <option value="Hour">Hour</option>
+      <% 0.upto(24-1) do |i| %>
+        <option value="<%= i %>"> <%= "#{ (i%12)==0?12:(i%12) } #{ i<12?'AM':'PM'}" %> </option>
+      <% end %>
+    </select>
+
+    <select name="startminute">
+      <option value="Minute">Minute</option>
+      <% 0.upto(59) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+  <br>
+
+  End date:
+    <select name="endmonth">
+      <option value="Month">Month</option>
+      <% 1.upto(12) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+    <select name="endday">
+      <option value="Day">Day</option>
+      <% 1.upto(31) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+    <select name="endyear">
+      <option value="Year">Year</option>
+      <% 2012.upto(2016) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+  End time:
+    <select name="endtime">
+      <option value="Hour">Hour</option>
+      <% 0.upto(24-1) do |i| %>
+        <option value="<%= i %>"> <%= "#{ (i%12)==0?12:(i%12) } #{ i<12?'AM':'PM'}" %> </option>
+      <% end %>
+    </select>
+
+    <select name="endminute">
+      <option value="Minute">Minute</option>
+      <% 0.upto(59) do |i| %>
+        <option value="<%= i %>"> <%= i %> </option>
+      <% end %>
+    </select>
+
+  <br><br>
+
+  Enter up to three interest tags: <br>
+  Interest tag #1: <input type="text" name="tag1" /><br />
+  Interest tag #2: <input type="text" name="tag2" /><br />
+  Interest tag #3: <input type="text" name="tag3" /><br />
+
+  <br>
+
+  <input type="submit" value="Create Event" />
+</form>
+
+</html>

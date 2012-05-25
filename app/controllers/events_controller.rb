@@ -40,7 +40,32 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
+    # Tutorial for creating fb events through Koala:
+    # http://horserumble.com/creating-facebook-events-with-koala
+
+    # Set up argument hash to create event on fb
+    event_params = {
+      :name => params[:eventname],
+      :description => params[:description],
+      :start_time => Time.new(params[:startyear], params[:startmonth], params[:startday], params[:starthour], params[:startminute]),
+      :end_time => Time.new(params[:endyear], params[:endmonth], params[:endday], params[:endhour], params[:endminute])
+    }
+
+    # Create the event on fb and instantiate a Ruby event with the fbid
+    fbevent_info = (session[:graph]).put_object('me', 'events', event_params)
+    @event = Event.new({ :fbeventid => fbevent_info['id'].to_i })
+
+    # Record the event's interest tags
+    tags = [params[:tag1], params[:tag2], params[:tag3]]
+    tags.each do |tag|
+      next if tag.strip.empty?
+      tag.downcase!
+      interest = Interest.find_by_name(tag)
+      (Interest.new({ :name => tag })).save if interest == nil
+      EventInterest.new({ :fbeventid => @event.fbeventid, :interestid => interest.id }).save
+    end
+
+    # Record the Ruby event with fbid in our table
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
