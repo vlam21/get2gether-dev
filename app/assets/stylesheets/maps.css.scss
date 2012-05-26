@@ -22,7 +22,7 @@ h3 { margin: 0 0  1px 0; font: bold 18px Helvetica, Arial, Sans-Serif; letter-sp
 
 #content { width: 300px; }
 
-#more-info { width: 360px; float: right; background: #ffe8b2; padding: 20px; height: 460px;}
+#more-info { width: 360px; float: left; background: #ffe8b2; padding: 20px; height: 460px;}
 #more-info * { position: relative; z-index: 40; }
 #more-info > div { background: #e9e2bf; -moz-box-shadow: 0 0 14px rgba(70,49,1,0.5); -webkit-box-shadow: 0 0 14px rgba(70,49,1,0.5); padding: 20px; height: 420px; overflow-y:scroll;}
 .longdesc { display: none; }

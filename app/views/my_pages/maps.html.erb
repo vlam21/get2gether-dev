@@ -122,7 +122,7 @@ function create_event(e, eid) {
 	var ret = li.append(title).append(tags).append(desc);
 
 
-	//create_marker(new google.maps.LatLng(e.lat, e.lng), li);
+	create_marker(new google.maps.LatLng(e.lat, e.lng), li);
 
 	return ret;
 }
@@ -135,8 +135,8 @@ function create_marker(latlng, li) {
 		icon: "/marker.png"
 	});
 	google.maps.event.addListener(curMarker, 'click', function() {
-		map.setZoom(14);
-		//select_event(li);
+		//map.setZoom(14);
+		li.click();
 	});
 }
 
@@ -149,50 +149,32 @@ function populate_events_list(list) {
 }
 
 
-function select_event ($el) {
+function select_event () {
 	$el = $(this);
-	//alert($(this));
-	/*if($el.target) {
-		var output = '';
-		for (var property in $el) {
-		  output += property + ': ' + $el[property]+'; <br/>';
-		}
-		debug(output);
 
-	}*/
 	var e = eventsArray[$el.attr("eid")];
-	if (!$el.hasClass("selected")) {
         
-		$("#locations li").removeClass("selected");
-		$el.addClass("selected");
-		if (!first) { 
-			curMarker.setMap(); 
-			map.setZoom(10);
-		}
-		if(!(isNaN(e.lat) || isNaN(e.lng))) { 
-			pointToMoveTo = new google.maps.LatLng(e.lat, e.lng);
-			map.panTo(pointToMoveTo);
-			/*curMarker = new google.maps.Marker({
-				position: pointToMoveTo,
-				map: map,
-				icon: "/marker.png"
-			});
-			google.maps.event.addListener(curMarker, 'click', function() {
-				map.setZoom(14);
-			});*/
-			create_marker(pointToMoveTo, $el); 
-          	}
-		else {
-			map.panTo(cse_building);
-		}
-		$("#more-info")
-			.find("h2")
-				.html($el.find("h3").html())
-			.end()
-			.find("p")
-				.html($el.find(".longdesc").html());
-		first = false; 
+	$("#locations li").removeClass("selected");
+	$el.addClass("selected");
+	if (!first) { 
+		curMarker.setMap(); 
+		//map.setZoom(10);
 	}
+	if(!(isNaN(e.lat) || isNaN(e.lng))) { 
+		pointToMoveTo = new google.maps.LatLng(e.lat, e.lng);
+		map.panTo(pointToMoveTo);
+		create_marker(pointToMoveTo, $el); 
+      	}
+	else {
+		map.panTo(cse_building);
+	}
+	$("#more-info")
+		.find("h2")
+			.html($el.find("h3").html())
+		.end()
+		.find("p")
+			.html($el.find(".longdesc").html());
+	first = false; 
 };
 	
 });
@@ -204,7 +186,13 @@ function select_event ($el) {
 
 <body>
 <div id="page-wrap">
+	
 	<h1>spam = maps backwards</h1>
+	<input type='radio' name='option'/> Show All
+	<input type='radio' name='option'/> Show New
+	<input type='radio' name='option'/> Show Attending
+	<br/>
+	
 	<ul id="locations"></ul>
 	<div id="map_canvas"></div>
 	<div id="more-info">
