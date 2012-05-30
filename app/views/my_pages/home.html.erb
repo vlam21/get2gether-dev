@@ -46,7 +46,9 @@ $(document).ready(function(){
 		<div class = "hashtagfont">
                 <% UserInterest.find_all_by_fbid(@user['id']).each do |ui| %>
                
-                  <% i = Interest.find_by_id(ui.interestid)%>
+                  <% i = Interest.find_by_id(ui.interestid) %>
+                  <% if i != nil %>
+                
                <form class = "x" name= "<%=i.id %>" action="/del_user_tag" method="post">
                    <input type ="hidden" name="interest" value=<%=i.id%> /> 
                 <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
@@ -54,6 +56,7 @@ $(document).ready(function(){
                    <%=i.name %>
                </form>
                  </br>
+                  <% end %>
                 <% end %>
 		</div>
 		</div>		

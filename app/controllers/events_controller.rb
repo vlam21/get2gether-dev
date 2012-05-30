@@ -62,6 +62,9 @@ class EventsController < ApplicationController
       tag.downcase!
       interest = Interest.find_by_name(tag)
       (Interest.new({ :name => tag })).save if interest == nil
+      if interest == nil 
+        interest = Interest.find_by_name(tag)
+      end
       EventInterest.new({ :fbeventid => @event.fbeventid, :interestid => interest.id }).save
     end
 
