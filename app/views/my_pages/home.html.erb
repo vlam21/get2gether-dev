@@ -66,35 +66,16 @@ $(document).ready(function(){
  
  	<div class="aside">	
 
-  <%
-    # Find events to suggest to the user.
-
-    user_interests = UserInterest.find_all_by_fbid(@user[:id])
-    interest_ids = user_interests.map { |ui| ui.interestid }
-    suggested_event_ids = []
-    interest_ids.each do |interest_id|
-      event_interests = EventInterest.find_all_by_interestid(interest_id)
-      event_interests.each { |ei| suggested_event_ids << ei.fbeventid }
-    end
-    suggested_event_ids.uniq! # removes duplicates
-    suggested_events = suggested_event_ids.map { |event_id| @graph.get_object(event_id) }
-
-    # suggested_events is now a list of hashes, each hash representing the fb
-    # event to display to the user
-  %>
-
-	<div class="module blue">
-		<h2>CSE Day<a href="#">Free Food</a></h2>
-		<ul>
-			<li>Event Name</li>
-		</ul>
-	</div>		
-	</div>
+ 
+  <% @events_to_show.each do |event| %>
+	  <div class="module blue">
+		  <h2><%= event[1]['name'] %><!--<a href="#">Free Food</a>--></h2>
+      <p>Description: <%= event[1]['description'] %></p>
+      Tags: <%= event[2].join(' ') %>
+	  </div>
+  <% end %>
 			
 <div>
-  <%=
-    session[:fbid]
-  %>	
 </div>
 
 </body>
