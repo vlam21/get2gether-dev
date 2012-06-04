@@ -69,7 +69,8 @@ $(document).ready(function(){
  
   <% @events_to_show.each do |event| %>
 	  <div class="module blue">
-		  <h2><%= event[1]['name'] %><!--<a href="#">Free Food</a>--></h2>
+		  <h2><%= event[1]['name'] %></h2>
+      <p>Link to Facebook event page: <a href="http://www.facebook.com/<%= event[0] %>/">http://www.facebook.com/<%= event[0] %>/</a></p>
       <p>Description: <%= event[1]['description'] %></p>
       Tags: <%= event[2].join(' ') %>
 	  </div>

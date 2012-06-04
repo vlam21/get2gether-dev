@@ -30,7 +30,6 @@ class MyPagesController < ApplicationController
 
     # Find events to suggest to the user.
     user_interests = UserInterest.find_all_by_fbid(session[:fbid])
-    
     interest_ids = user_interests.map { |ui| ui.interestid }
     suggested_event_ids = []
     interest_ids.each do |interest_id|
