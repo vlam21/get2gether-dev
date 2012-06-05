@@ -58,10 +58,10 @@ class MyPagesController < ApplicationController
   end
 
   def new_user_tag
-    interest = Interest.find_by_name(params[:interest])
+    interest = Interest.find_by_name(params[:interest_tags])
     if interest == nil
       interest = Interest.new
-      interest.name = params[:interest]
+      interest.name = params[:interest_tags]
       interest.save
     end
     user_interest = UserInterest.find_by_fbid_and_interestid(params[:fbid], interest.id)
