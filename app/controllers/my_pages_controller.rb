@@ -51,7 +51,7 @@ class MyPagesController < ApplicationController
     @events_to_show.delete_if { |event| event[1]['end_time'] < Time.now.iso8601 }
 
     # sort the events by start time
-    # @events_to_show.sort! { |e1, e2| e1[1]['start_time'] <=> e2[1]['start_time'] }
+    @events_to_show.sort! { |e1, e2| e1[1]['start_time'] <=> e2[1]['start_time'] }
 
     # suggested_events is now a list of hashes, each hash representing the fb
     # event to display to the user
