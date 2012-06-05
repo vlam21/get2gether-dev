@@ -47,6 +47,9 @@ class MyPagesController < ApplicationController
     @events_to_show = [] # [ <event id> , <fb event object as hash> , <list of interest tags> ]
     0.upto(suggested_event_ids.length-1) { |i| @events_to_show << [suggested_event_ids[i], suggested_events[i], suggested_event_interests[i]] }
 
+    # filter events that have already ended
+    @events_to_show.delete_if { |event| event[1]['end_time'] < Time.now.iso8601 }
+
     # suggested_events is now a list of hashes, each hash representing the fb
     # event to display to the user
   end
