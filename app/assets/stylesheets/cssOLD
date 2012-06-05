@@ -6,9 +6,7 @@
 
 * { margin: 0; padding: 0; }
 body { 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
-  letter-spacing:-2px;
+	font: 14px Georgia, serif; 
 	background: #2F2626; 
 	color: #eee;
 }
@@ -143,7 +141,7 @@ img.event_img {
 	font-size: 23px; 
 	font-family: Arial, Helvetica, sans-serif;
 	letter-spacing:-2px;
-	padding-top: 14px;
+	padding-top: 3px;
 	
 	-moz-border-radius-topright: 10px;
 	-webkit-border-top-right-radius: 10px;
@@ -155,16 +153,7 @@ img.event_img {
 	font-size: 23px; 
 	font-family: Arial, Helvetica, sans-serif;
 	letter-spacing:-2px;
-	padding-top: 14px;
-}
-
-.module h2 a:visited{
-	color: #1B9B93;
-	text-decoration: none;
-	font-size: 23px; 
-	font-family: Arial, Helvetica, sans-serif;
-	letter-spacing:-2px;
-	padding-top: 14px;
+	padding-top: 3px;
 }
 
 .module h2 a:hover{
@@ -173,7 +162,7 @@ img.event_img {
 	font-size: 23px; 
 	font-family: Arial, Helvetica, sans-serif;
 	letter-spacing:-2px;
-	padding-top:14px;
+	padding-top: 3px;
 }
 
 .module ul {
@@ -183,7 +172,7 @@ img.event_img {
 .module li {
 	color: #7c7c7c;
 	padding: 4px;
-  font-family: Arial, Helvetica, sans-serif;
+	font-family: Georgia, Serif;
 }
 
 /*------------------------------Search Bar---------------------------------------------------*/
@@ -235,77 +224,3 @@ input[type="text"]
 	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
-
-/*------------------------------Hashtag Table---------------------------------------------------*/
-
-.interests {
-  width: 340px;
-  background: white;
-  margin-right:auto;
-  padding: 20px;
-  position: absolute;
-  margin-top: 180px;
-
-  color: #7c7c7c;
-  text-decoration: none;
-  font-size: 18px;
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing:-2px;
-  line-height: 12px;
-
-  
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px; /* future proofing */
-  -khtml-border-radius: 10px; /* for old Konqueror browsers */
-}
-
-#interestsX
-{
-  color: #1B9B93;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing:-2px;
-  display: inline;
-  margin-right:8px;
-}
-
-#interestsX a:link
-{
-  color: #1B9B93;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing:-2px;
-  display: inline;
-  margin-right:8px;
-}
-
-#interestsX a:hover
-{
-  color: #98cec5;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing:-2px;
-  display: inline;
-  margin-right:8px;
-}
-
-.interests h2 {
-  background: white;
-  border-bottom: 1px solid #ededed;
-
-  color: #1B9B93;
-  text-decoration: none;
-  font-size: 23px;
-  font-family: Arial, Helvetica, sans-serif;
-  letter-spacing:-2px;
-
-  -moz-border-radius-topright: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  -webkit-border-top-left-radius: 10px;
-}
-    

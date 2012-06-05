@@ -1,27 +1,26 @@
 <head>
-<script type="text/javascript">
-$(document).ready(function(){
-  $(".x").click(function(){
-    $(this).submit();
-  });
-});
-</script>
 	<title>Get2Gether</title>
 	
 	<meta charset="UTF-8">
 	
-	<link rel="stylesheet" href="/assets/my_pages.css.scss">
-	
-		<div class="frontlogo">
-      <%= link_to image_tag("/assets/front_logo.png"), :action => 'home', :controller => 'my_pages' %>
-			<!--<img class="logo" src="/assets/front_logo.png" alt"" >-->
-		</div>
+	<div class="frontlogo">
+      <%= link_to image_tag("/assets/Get2Gether.png", :class => 'logo'), :action => 'home', :controller => 'my_pages' %>
+    </div>
+        
+    <div class="nav-wrap">   
         <ul class="group" id="example-two">
-          <li><%= link_to "Create Event", new_event_path %></li>
-			    <li><%= link_to "Maps", maps_path %></li>
-          <li><%= link_to "Explore", explore_path %></li>
-			    <!--<li><a rel="#98CEAA" href="#" id="clicked3">Explore</a></li>-->
+			      <li class="current_page_item_two" ><a rel="#98cec5"><%= link_to "Home", :action => 'home', :controller => 'my_pages' %></a></li> 
+            <li><a rel="#98CEAA" class="current"><%= link_to "Create Event", new_event_path %></a></li>
+			      <li><a rel="#98cec5"><%= link_to "Maps", :class=> maps_path %></a></li>
+            <li><a rel="#1B9B93"><%= link_to "Explore", explore_path %></a></li>
+
+    <!--
+            <li><a rel="#1B9B93" href="#" id="clicked3">Explore</a></li>
+            <li class="current_page_item_two"><a rel="#98CEAA" href="#" id="clicked1" class="current">Create Event</a></li>
+            <li><a rel="#98cec5" href="#" id="clicked2">Maps</a></li>
+    -->
         </ul>
-	
+        
+    </div>
 	
 </head>

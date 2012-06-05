@@ -1,4 +1,5 @@
-<%= render 'layouts/header' %>
+<head><%= render 'layouts/header' %></head>
+<link rel='stylesheet' href="/assets/stylesheets/buttons.css">
 
 <script>
 
@@ -14,82 +15,78 @@
 
 <body>
 
-<div id="content">
-	<div class="msg">
-	<p> Input your interests: </p></br>
-	</div>
-	<div class="ui-widget">
-	<form name="input" action="/new_user_tag" method="post">
-		<input name="interest_tags" id="interest_tags" type="text"/></br></br>
-                <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
-	</form>
-	</div>
+  <div id="content">
+		<div class="search">
+			<h2> Input your interests: </h2></br>
+	      <form name="input" action="/new_user_tag" method="post">
+		      <input name="interest_tags" id="interest_tags" type="text"/>
+          <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
+				  <input type="Submit" value="Submit" class="button" align="left" />
+	      </form>
+		</div>
 
-
-	
-	<div class="aside2">
-		<div class="module2 blue">
-		<h2>Interests Subscribed<a href="#"></a></h2>
-		<div class = "hashtagfont">
-                <% UserInterest.find_all_by_fbid(@user['id']).each do |ui| %>
+	<div class="interests">
+		<h2>Interests Subscribed<a href="#"></a></h2></br>
+               <% UserInterest.find_all_by_fbid(@user['id']).each do |ui| %>
                
                   <% i = Interest.find_by_id(ui.interestid) %>
                   <% if i != nil %>
                 
                <form class = "x" name= "<%=i.id %>" action="/del_user_tag" method="post">
-                   <input type ="hidden" name="interest" value=<%=i.id%> /> 
-                <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
-                   x
-                   <%=i.name %>
+                  <input type ="hidden" name="interest" value=<%=i.id%> /> 
+                  <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
+      <div id = "interestsX">X</div>
+                    <%=i.name %>
                </form>
-                 </br>
-                  <% end %>
+               </br>
+               <% end %>
                 <% end %>
-		</div>
-		</div>		
-	</div>
-	
-</div>
+	</div>			
+
+
 
  	<div class="aside">	
-
- 
   <% @events_to_show.each do |event| %>
-	  <div class="module blue">
-		  <h2><%= event[1]['name'] %></h2>
-      <p>Link to Facebook event page: <a href="http://www.facebook.com/<%= event[0] %>/">http://www.facebook.com/<%= event[0] %>/</a></p>
-      <p>Description: <%= event[1]['description'] %></p>
-      <%
-        start_time = Time.parse(event[1]['start_time'])
-        start_year = start_time.year
-        start_month = start_time.month
-        start_day = start_time.day
-        x = start_time.hour
-        start_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
-      %>
-      <p>Starts:
-        <%=
-          "#{start_month}/#{start_day}/#{start_year} at #{start_hour}"
+		<img class="event_img" src="/assets/gym.png" alt="" >
+    <div class="events">
+	    <div class="module">
+		    <a href="http://www.facebook.com/<%= event[0] %>"><h2><%= event[1]['name']%></h2></a>
+        <ul>
+        <li>Description: <%= event[1]['description'] %>
+        <%
+          start_time = Time.parse(event[1]['start_time'])
+          start_year = start_time.year
+          start_month = start_time.month
+          start_day = start_time.day
+          x = start_time.hour
+          start_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
         %>
-      </p>
-      <%
-        end_time = Time.parse(event[1]['end_time'])
-        end_year = end_time.year
-        end_month = end_time.month
-        end_day = end_time.day
-        x = end_time.hour
-        end_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
-      %>
-      <p>Ends:
-        <%=
-          "#{end_month}/#{end_day}/#{end_year} at #{end_hour}"
+        </li>
+        <li>Starts:
+          <%=
+            "#{start_month}/#{start_day}/#{start_year} at #{start_hour}"
+          %>
+        <%
+          end_time = Time.parse(event[1]['end_time'])
+          end_year = end_time.year
+          end_month = end_time.month
+          end_day = end_time.day
+          x = end_time.hour
+          end_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
         %>
-      </p>
-      Tags: <%= event[2].join(' ') %>
-	  </div>
+        </li>
+        <li>Ends:
+          <%=
+            "#{end_month}/#{end_day}/#{end_year} at #{end_hour}"
+          %>
+        </li>
+        <li>
+        Tags: <%= event[2].join(' ') %>
+        </li>
+        <ul>
+	    </div>
+    </div>
   <% end %>
 			
-<div>
 </div>
-
 </body>
