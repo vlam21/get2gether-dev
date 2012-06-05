@@ -72,6 +72,32 @@ $(document).ready(function(){
 		  <h2><%= event[1]['name'] %></h2>
       <p>Link to Facebook event page: <a href="http://www.facebook.com/<%= event[0] %>/">http://www.facebook.com/<%= event[0] %>/</a></p>
       <p>Description: <%= event[1]['description'] %></p>
+      <%
+        start_time = Time.parse(event[1]['start_time'])
+        start_year = start_time.year
+        start_month = start_time.month
+        start_day = start_time.day
+        x = start_time.hour
+        start_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
+      %>
+      <p>Starts:
+        <%=
+          "#{start_month}/#{start_day}/#{start_year} at #{start_hour}"
+        %>
+      </p>
+      <%
+        end_time = Time.parse(event[1]['end_time'])
+        end_year = end_time.year
+        end_month = end_time.month
+        end_day = end_time.day
+        x = end_time.hour
+        end_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
+      %>
+      <p>Ends:
+        <%=
+          "#{end_month}/#{end_day}/#{end_year} at #{end_hour}"
+        %>
+      </p>
       Tags: <%= event[2].join(' ') %>
 	  </div>
   <% end %>
