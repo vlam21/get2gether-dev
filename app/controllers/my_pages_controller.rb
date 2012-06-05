@@ -103,6 +103,10 @@ class MyPagesController < ApplicationController
     #suggested_events = suggested_event_ids.map { |event_id| session[:graph].get_object(event_id) }
   end
 
+  def explore
+
+  end
+
   def help
   end
 end
