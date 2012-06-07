@@ -3,9 +3,12 @@
 <script>
 
   $(function() {
-    var tags = ["hello", "script", "c"];
+    var tags = "<%= Interest.all.map { |i| i.name }.join(' ') %>"
+    tags = tags.split(" ");
     $("#interest_tags").autocomplete({ source: tags });  
   });
+
+  
 
 </script>
 
@@ -17,7 +20,7 @@
 	</div>
 	<div class="ui-widget">
 	<form name="input" action="/new_user_tag" method="post">
-		<input name="interest" id="interest_tags" type="text"/></br></br>
+		<input name="interest_tags" id="interest_tags" type="text"/></br></br>
                 <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
 	</form>
 	</div>
