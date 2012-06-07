@@ -20,6 +20,9 @@
     <%= select_tag("endhour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
     <%= select_tag("endminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
   <br><br>
+  Privacy level:
+    <%= select_tag("privacy", options_for_select([["Public", "OPEN"], ["Friends only", "CLOSED"]])
+  <br><br>
   Enter up to three interest tags: <br>
   Interest tag #1: <%= text_field_tag "tag1" %> <br>
   Interest tag #2: <%= text_field_tag "tag2" %> <br>
