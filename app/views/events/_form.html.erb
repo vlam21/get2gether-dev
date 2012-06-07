@@ -21,7 +21,7 @@
     <%= select_tag("endminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
   <br><br>
   Privacy level:
-    <%= select_tag("privacy", options_for_select([["Public", "OPEN"], ["Friends only", "CLOSED"]])
+    <%= select_tag("privacy", options_for_select([["Public", "OPEN"], ["Friends only", "CLOSED"]])) %>
   <br><br>
   Enter up to three interest tags: <br>
   Interest tag #1: <%= text_field_tag "tag1" %> <br>

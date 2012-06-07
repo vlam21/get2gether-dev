@@ -48,7 +48,8 @@ class EventsController < ApplicationController
       :name => params[:eventname],
       :description => params[:description],
       :start_time => Time.new(params[:startyear], params[:startmonth], params[:startday], params[:starthour], params[:startminute]),
-      :end_time => Time.new(params[:endyear], params[:endmonth], params[:endday], params[:endhour], params[:endminute])
+      :end_time => Time.new(params[:endyear], params[:endmonth], params[:endday], params[:endhour], params[:endminute]),
+      :privacy_type => params[:privacy]
     }
 
     # Create the event on fb and instantiate a Ruby event with the fbid

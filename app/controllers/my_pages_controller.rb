@@ -50,6 +50,12 @@ class MyPagesController < ApplicationController
     # filter events that have already ended
     @events_to_show.delete_if { |event| event[1]['end_time'] < Time.now.iso8601 }
 
+    # filter events that are closed and whose hosts are not friends with the current user
+    @events_to_show.delete_if do |event|
+      host_fbid = event[1]['owner']['id']
+      event[1]['privacy_type'] == 'CLOSED' && session['graph'].get_connections('me', "friends/#{host_fbid}").empty?
+    end
+
     # sort the events by start time
     @events_to_show.sort! { |e1, e2| e1[1]['start_time'] <=> e2[1]['start_time'] }
 
