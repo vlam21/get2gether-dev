@@ -37,15 +37,23 @@ function debug (str) {
 
 	var eventsArray = [];
 	var ev;
-	<% @events.each do |ev| 
-	e = session[:graph].get_object(ev.fbeventid) %>
+	<% @suggested_event_ids.each do |fbeid| 
+	#fbeid = Event.find_by_id(eid)['fbeventid']
+	e = session[:graph].get_object(fbeid) %>
 	ev = new Object();
-	ev.fbeventid = "<%= ev.fbeventid %>";
+	ev.fbeventid = "<%= fbeid %>";
 	ev.name = "<%= e['name'] %>";
 	ev.host = "<%= e['host'] %>";
 	ev.start = "<%= e['start_time'] %>";
 	ev.end = "<%= e['end_time'] %>";
 	ev.location = "<%= e['location'] %>";
+	ev.tags = [];
+	<% @einterests = EventInterest.find_all_by_fbeventid(fbeid); # or fbeid
+		@einterests.each do |ei|
+		i = Interest.find_by_id(ei['interestid']) %>
+		ev.tags.push("<%=i['name']%>");
+	<% end %>
+		
 	/*ev.description = "<%= e['description'] %>";*/
 	eventsArray.push(ev);
 	<% end %>
@@ -81,12 +89,6 @@ function get_geo(geo_index, eventsArray) {
 			var loc = result[0]['geometry']['location'];
 			e.lat = loc.lat();
 			e.lng = loc.lng();
-			/*if(geo_index < eventsArray.length-1) {
-				get_geo(geo_index+1, eventsArray); 
-			}
-			else {
-				populate_events_list(eventsArray);
-			}*/
 		}
 		geo_count++;
 		if(geo_count >= eventsArray.length) {
@@ -104,8 +106,9 @@ function create_event(e, eid) {
 	li.attr("eid", eid);
 	title.html(e.name);
 
-	tags.html("tags go here");
-	tags.html(e.lat + " " + e.lng);	
+	tagstr = "";
+	for(var i = 0; i < e.tags.length; i++) tagstr += e.tags[i] + " ";
+	tags.html(tagstr);
 	
 	desc.addClass("longdesc");
 	if(e.host) desc.append($("<b>").html("Host"))
@@ -187,7 +190,7 @@ function select_event () {
 <body>
 <div id="page-wrap">
 	
-	<h1>spam = maps backwards</h1>
+	<h1>Events Map</h1>
 	<input type='radio' name='option'/> Show All
 	<input type='radio' name='option'/> Show New
 	<input type='radio' name='option'/> Show Attending
@@ -205,10 +208,11 @@ function select_event () {
 	&nbsp;	
 </div>
 <div id="d"></div>
-<% @events.each do |ev| 
-	e = session[:graph].get_object(ev.fbeventid) %>
+<% @suggested_event_ids.each do |fbeid| 
+	#fbeid = Event.find_by_id(eid)['fbeventid']
+	e = session[:graph].get_object(fbeid) %>
 
-<div class="longdesc" id="desc<%=ev.fbeventid%>"> <%= e['description'] %> </div>
+<div class="longdesc" id="desc<%=fbeid%>"> <%= e['description'] %> </div>
 
 <% end %>
 <br/>

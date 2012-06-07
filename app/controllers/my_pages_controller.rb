@@ -88,7 +88,15 @@ class MyPagesController < ApplicationController
   end
 
   def maps
-    @events = Event.all
+    user_interests = UserInterest.find_all_by_fbid(session[:fbid])
+    interest_ids = user_interests.map { |ui| ui.interestid }
+    @suggested_event_ids = []
+    interest_ids.each do |interest_id|
+      event_interests = EventInterest.find_all_by_interestid(interest_id)
+      event_interests.each { |ei| @suggested_event_ids << ei.fbeventid }
+    end
+    @suggested_event_ids.uniq! # removes duplicates
+    #suggested_events = suggested_event_ids.map { |event_id| session[:graph].get_object(event_id) }
   end
 
   def help
