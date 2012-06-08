@@ -1,3 +1,5 @@
+<%= render 'layouts/header' %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +38,7 @@ function debug (str) {
 	var map = new google.maps.Map($("#map_canvas")[0], myOptions);
 
 	var eventsArray = [];
+	var markersArray = [];
 	var ev;
 	<% @suggested_event_ids.each do |fbeid| 
 	#fbeid = Event.find_by_id(eid)['fbeventid']
@@ -125,22 +128,23 @@ function create_event(e, eid) {
 	var ret = li.append(title).append(tags).append(desc);
 
 
-	create_marker(new google.maps.LatLng(e.lat, e.lng), li);
+	create_marker(new google.maps.LatLng(e.lat, e.lng), li, false);
 
 	return ret;
 }
 
 function create_marker(latlng, li) {
-	
+	var pic = "/marker.png";
 	curMarker = new google.maps.Marker({
 		position: latlng,
 		map: map,
-		icon: "/marker.png"
+		icon: pic
 	});
 	google.maps.event.addListener(curMarker, 'click', function() {
 		//map.setZoom(14);
 		li.click();
 	});
+	markersArray[li.attr("eid")] = curMarker;
 }
 
 function populate_events_list(list) {
@@ -155,18 +159,22 @@ function populate_events_list(list) {
 function select_event () {
 	$el = $(this);
 
-	var e = eventsArray[$el.attr("eid")];
-        
+	var eid = $el.attr("eid");
+	var e = eventsArray[eid];
+        var newMarker = markersArray[eid];
+
 	$("#locations li").removeClass("selected");
+
 	$el.addClass("selected");
-	if (!first) { 
-		curMarker.setMap(); 
-		//map.setZoom(10);
-	}
+
+	curMarker.setIcon("/marker.png")
+
 	if(!(isNaN(e.lat) || isNaN(e.lng))) { 
 		pointToMoveTo = new google.maps.LatLng(e.lat, e.lng);
 		map.panTo(pointToMoveTo);
-		create_marker(pointToMoveTo, $el); 
+		//create_marker(pointToMoveTo, $el); 
+		newMarker.setIcon("/marker_selected.png");
+		curMarker = newMarker;
       	}
 	else {
 		map.panTo(cse_building);
@@ -177,7 +185,6 @@ function select_event () {
 		.end()
 		.find("p")
 			.html($el.find(".longdesc").html());
-	first = false; 
 };
 	
 });
@@ -190,11 +197,11 @@ function select_event () {
 <body>
 <div id="page-wrap">
 	
-	<h1>Events Map</h1>
-	<input type='radio' name='option'/> Show All
+	<h1>Event Maps</h1>
+	<!--<input type='radio' name='option'/> Show All
 	<input type='radio' name='option'/> Show New
 	<input type='radio' name='option'/> Show Attending
-	<br/>
+	<br/>-->
 	
 	<ul id="locations"></ul>
 	<div id="map_canvas"></div>

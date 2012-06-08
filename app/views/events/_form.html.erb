@@ -1,32 +1,70 @@
 
 <%= form_tag(create_event_path, :method=>'post', :multipart => true) do %>
+<table id="create_table">
+<tr>
+  <td class="name">Name</td> 
+  <td style="width:10px"></td>
+  <td><%= text_field_tag "eventname" %></td>
+</tr>
 
-  Name: <%= text_field_tag "eventname" %> <br>
-  Description:<br><%= text_area_tag "description", "", :size=>"40x20" %> <br>
-    
-  Start date: 
-    <%= select_tag("startmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
-    <%= select_tag("startday", options_for_select([["Day", "Day"]] + (1..31).to_a.map { |x| [x, x] })) %>
-    <%= select_tag("startyear", options_for_select([["Year", "Year"]] + (2012..2016).to_a.map { |x| [x, x] })) %>
-  Start time:
-    <%= select_tag("starthour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
+<tr>
+  <td class="name">Description</td>
+  <td></td>
+  <td><%= text_area_tag "description", "", :size=>"23x2" %></td>
+</tr>
+
+<tr>
+  <td class="name">Start date</td>
+  <td></td> 
+  <td><%= select_tag("startmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
+  <%= select_tag("startday", options_for_select([["Day", "Day"]] + (1..31).to_a.map { |x| [x, x] })) %>
+    <%= select_tag("startyear", options_for_select([["Year", "Year"]] + (2012..2016).to_a.map { |x| [x, x] })) %></td>
+</tr>
+
+<tr>
+  <td class="name">Start time</td>
+  <td></td>
+  <td><%= select_tag("starthour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
     <%= select_tag("startminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
-  <br>
-  End date:
-    <%= select_tag("endmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
+  </td>
+</tr>
+
+<tr>
+  <td class="name">End date</td>
+  <td></td>
+  <td><%= select_tag("endmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
     <%= select_tag("endday", options_for_select([["Day", "Day"]] + (1..31).to_a.map { |x| [x, x] })) %>
     <%= select_tag("endyear", options_for_select([["Year", "Year"]] + (2012..2016).to_a.map { |x| [x, x] })) %>
-  End time:
-    <%= select_tag("endhour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
-    <%= select_tag("endminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
-  <br><br>
-  Privacy level:
-    <%= select_tag("privacy", options_for_select([["Public", "OPEN"], ["Friends only", "CLOSED"]])) %>
-  <br><br>
-  Enter up to three interest tags: <br>
-  Interest tag #1: <%= text_field_tag "tag1" %> <br>
-  Interest tag #2: <%= text_field_tag "tag2" %> <br>
-  Interest tag #3: <%= text_field_tag "tag3" %> <br>
+  </td>
+</tr>
 
-   <%= submit_tag 'Submit' %>
+<tr>
+  <td class="name">End time</td>
+  <td></td>
+  <td><%= select_tag("endhour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
+    <%= select_tag("endminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
+  </td>
+</tr>
+
+<tr>
+  <td class="name">Privacy level</td>
+  <td></td>
+  <td><%= select_tag("privacy", options_for_select([["Public", "OPEN"], ["Friends only", "CLOSED"]])) %></td>
+</tr>
+
+<tr>
+  <td class="name">Enter up to three interest tags</td>
+  <td></td>
+  <td><%= text_field_tag "tag1" %> <br>
+  <%= text_field_tag "tag2" %> <br>
+  <%= text_field_tag "tag3" %> </td>
+</tr>
+
+<tr>
+  <td></td>
+  <td></td>
+  <td><%= submit_tag 'Submit' %></td>
+</tr>
+</table>
+   
 <% end %>
