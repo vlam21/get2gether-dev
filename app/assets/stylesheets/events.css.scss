@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#outer_table tr td
+{
+  vertical-align: text-top;
+}
+
 #create_table
 {
   margin-left: 5%;

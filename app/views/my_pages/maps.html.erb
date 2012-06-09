@@ -44,7 +44,7 @@ function debug (str) {
 	#fbeid = Event.find_by_id(eid)['fbeventid']
 	e = session[:graph].get_object(fbeid) %>
 	ev = new Object();
-	ev.fbeventid = "<%= fbeid %>";
+	ev.fbeid = "<%= fbeid %>";
 	ev.name = "<%= e['name'] %>";
 	ev.host = "<%= e['host'] %>";
 	ev.start = "<%= e['start_time'] %>";
@@ -80,7 +80,7 @@ function get_geo(geo_index, eventsArray) {
 	places.search(req, function(result, status) {
 		var e = eventsArray[geo_index];
 		if(status == "ZERO_RESULTS") {
-			alert(e.location + " not found. id = " + e.fbeventid);
+			alert(e.location + " not found. id = " + e.fbeid);
 			if(geo_index < eventsArray.length-1) {
 				get_geo(geo_index+1, eventsArray); 
 			}
@@ -107,6 +107,9 @@ function create_event(e, eid) {
 	var tags = $("<p>");
 	var desc = $("<p>");
 	li.attr("eid", eid);
+	li.attr("title", e.name);
+	li.attr("fbeid", e.fbeid);
+
 	title.html(e.name);
 
 	tagstr = "";
@@ -123,7 +126,7 @@ function create_event(e, eid) {
 	if(e.location) desc.append($("<b>").html("Location"))
 		.append(": " + e.location).append("<br>");
 	desc.append($("<b>").html("Description"))
-		.append(": " + $("#desc"+e.fbeventid).html()).append("<br>");
+		.append(": " + $("#desc"+e.fbeid).html()).append("<br>");
 
 	var ret = li.append(title).append(tags).append(desc);
 
@@ -181,7 +184,8 @@ function select_event () {
 	}
 	$("#more-info")
 		.find("h2")
-			.html($el.find("h3").html())
+			.html($("<a>").html($el.attr("title")).attr("href", "http://www.facebook.com/"+$el.attr("fbeid")))
+			//.html($el.find("h3").html())
 		.end()
 		.find("p")
 			.html($el.find(".longdesc").html());
@@ -208,7 +212,7 @@ function select_event () {
 	<div id="more-info">
 		<div>
 	
-			<h2>More Info</h2>
+			<h2></h2>
 			<p>Loading...</p>
 		</div>
 	</div>

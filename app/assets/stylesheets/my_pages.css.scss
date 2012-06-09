@@ -172,7 +172,7 @@ img.logo {
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 20px;
 }
-.module h2 a {
+/*.module h2 a {
 	float: right;
 	position: relative;
 	text-decoration: none;
@@ -192,7 +192,7 @@ img.logo {
 }
 .module h2 a:active {
 	padding: 0 16px;
-}
+}*/
 .module ul {
 	list-style: none;
 	padding: 10px 0;
@@ -212,7 +212,7 @@ img.logo {
 	border-bottom: 0;
 	padding-bottom: 0;
 }
-.module h2 a:before,
+/*.module h2 a:before,
 .module h2 a:after {
   content: "";
 	position: absolute;
@@ -228,10 +228,7 @@ img.logo {
 	margin-top: -8px;
 }
 
-.module.blue h2 a {
-	background: #66d1e8;
-	color:white;
-}
+
 .module.blue h2 a:hover {
 	background: #a7e5f1;
 	color:white;
@@ -246,8 +243,10 @@ img.logo {
 .module.blue h2 a:hover:after {
 	border-right-color: #a7e5f1;
 }
-
-
+*/
+.module.blue h2 a {
+	text-decoration:none;
+}
 
 
 
