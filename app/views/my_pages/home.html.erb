@@ -35,7 +35,7 @@
                <form class = "x" name= "<%=i.id %>" action="/del_user_tag" method="post">
                   <input type ="hidden" name="interest" value=<%=i.id%> /> 
                   <input type="hidden" name="fbid" value=<%=session[:fbid]%> >
-      <div id = "interestsX">X</div>
+      <input type="submit" id = "interestsX" value="X" style="background-color:#FFFFFF; border:1px">
                     <%=i.name %>
                </form>
                </br>
