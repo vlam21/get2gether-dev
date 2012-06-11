@@ -9,10 +9,10 @@
         
     <div class="nav-wrap">   
         <ul class="group" id="example-two">
-			      <li class="current_page_item_two" ><a rel="#98cec5"><%= link_to "Home", :action => 'home', :controller => 'my_pages' %></a></li> 
-            <li><a rel="#98CEAA" class="current"><%= link_to "Create Event", new_event_path %></a></li>
-			      <li><a rel="#98cec5"><%= link_to "Maps", :class=> maps_path %></a></li>
-            <li><a rel="#1B9B93"><%= link_to "Explore", explore_path %></a></li>
+			      <li id="home_link "<%= "class='current_page_item_two'" if params[:flag] == "home"%>><a rel="#98cec5"><%= link_to "Home", :action => 'home', :controller => 'my_pages' %></a></li> 
+            <li id="event_link" <%= "class='current_page_item_two'" if params[:flag] == "event"%>><a rel="#98CEAA"><%= link_to "Create Event", new_event_path %></a></li>
+			      <li id="maps_link"  <%= "class='current_page_item_two'" if params[:flag] == "maps"%>><a rel="#98cec5"><%= link_to "Maps", maps_path %></a></li>
+            <li id="explore_link" <%= "class='current_page_item_two'" if params[:flag] == "explore"%>><a rel="#1B9B93"><%= link_to "Explore", explore_path %></a></li>
 
     <!--
             <li><a rel="#1B9B93" href="#" id="clicked3">Explore</a></li>

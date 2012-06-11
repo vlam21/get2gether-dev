@@ -113,13 +113,38 @@ class MyPagesController < ApplicationController
   def maps
     user_interests = UserInterest.find_all_by_fbid(session[:fbid])
     interest_ids = user_interests.map { |ui| ui.interestid }
-    @suggested_event_ids = []
+    suggested_event_ids = []
     interest_ids.each do |interest_id|
       event_interests = EventInterest.find_all_by_interestid(interest_id)
-      event_interests.each { |ei| @suggested_event_ids << ei.fbeventid }
+      event_interests.each { |ei| suggested_event_ids << ei.fbeventid }
     end
-    @suggested_event_ids.uniq! # removes duplicates
-    #suggested_events = suggested_event_ids.map { |event_id| session[:graph].get_object(event_id) }
+    suggested_event_ids.uniq! # removes duplicates
+    suggested_events = suggested_event_ids.map { |event_id| session[:graph].get_object(event_id) }
+    # Get interest tags for each event
+    suggested_event_interests = suggested_event_ids.map do |event_id|
+      res = []
+      EventInterest.find_all_by_fbeventid(event_id).each { |ei| res << Interest.find(ei.interestid).name }
+      res
+    end
+    @events_to_show = [] # [ <event id> , <fb event object as hash> , <list of interest tags> ]
+    0.upto(suggested_event_ids.length-1) { |i| @events_to_show << [suggested_event_ids[i], suggested_events[i], suggested_event_interests[i]] }
+
+    # filter events that have already ended
+    @events_to_show.delete_if { |event| event[1]['end_time'] < Time.now.iso8601 }
+
+    # filter events that are closed and whose hosts are not friends with the current user
+    @events_to_show.delete_if do |event|
+      host_fbid = event[1]['owner']['id']
+      if host_fbid == session[:fbid]
+        false
+      else
+        event[1]['privacy_type'] == 'CLOSED' && session['graph'].get_connections('me', "friends/#{host_fbid}").empty?
+      end
+    end
+
+    # sort the events by start time
+    @events_to_show.sort! { |e1, e2| e1[1]['start_time'] <=> e2[1]['start_time'] }
+    @suggested_event_ids = @events_to_show.map { |x| x[0] }
   end
 
   def explore

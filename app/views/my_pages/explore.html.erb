@@ -1,4 +1,4 @@
-<%= render 'layouts/header' %>
+<%= render 'layouts/header', :params => { :flag => "explore" }%>
 
   <h2>Search for events by interest:</h2>
   <%= form_tag(explore_path, :method => 'post', :multipart => true) do %>

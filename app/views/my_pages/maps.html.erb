@@ -1,4 +1,4 @@
-<%= render 'layouts/header' %>
+<%= render 'layouts/header', :params => { :flag => "maps" }%>
 
 <!DOCTYPE html>
 <html>
@@ -117,6 +117,7 @@ function create_event(e, eid) {
 	tags.html(tagstr);
 	
 	desc.addClass("longdesc");
+	desc.append($("<br>"));
 	if(e.host) desc.append($("<b>").html("Host"))
 		.append(": " + e.host).append("<br>");
 	if(e.start) desc.append($("<b>").html("Start time"))
@@ -224,7 +225,10 @@ function select_event () {
 	e = session[:graph].get_object(fbeid) %>
 
 <div class="longdesc" id="desc<%=fbeid%>"> <%= e['description'] %> </div>
-
+<!--<script type="text/javascript">
+	var el = document.getElementById("desc<%=fbeid%>");
+	el.innerHTML = el.innerHTML.replace("\n", "<br/>");
+</script>-->
 <% end %>
 <br/>
 
