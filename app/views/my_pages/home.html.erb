@@ -1,15 +1,19 @@
 <head><%= render 'layouts/header', :params => { :flag => "home" }%></head>
-<link rel='stylesheet' href="/assets/stylesheets/buttons.css">
 
 <script>
 
   $(function() {
     var tags = "<%= Interest.all.map { |i| i.name }.join(' ') %>"
     tags = tags.split(" ");
-    $("#interest_tags").autocomplete({ source: tags });  
+    $("#interest_tags").autocomplete({ source: tags });
+    $("#parent").children("div").each(function() {
+      //hardcoding the height for now. need to check the height of an image 
+      if ($(this).children().height() < 200) {
+        $(this).children().height(199);
+      }
+    });
   });
 
-  
 
 </script>
 
@@ -45,14 +49,14 @@
 
 
 
- 	<div class="aside">	
+  <div id="parent">
   <% @events_to_show.each do |event| %>
-		<img class="event_img" src="/assets/gym.png" alt="" >
-    <div class="events">
-	    <div class="module">
+		<img class="event_img" id="img" src="/assets/gym.png" alt="" >
+    <div class="events" id="events">
+	    <div class="module" id="module">
 		    <a href="http://www.facebook.com/<%= event[0] %>"><h2><%= event[1]['name']%></h2></a>
         <ul>
-        <li>Description: <%= event[1]['description'] %>
+        <li>Description: <%= event[1]['description'] %></li>
         <%
           start_time = Time.parse(event[1]['start_time'])
           start_year = start_time.year
@@ -66,6 +70,7 @@
           <%=
             "#{start_month}/#{start_day}/#{start_year} at #{start_hour}"
           %>
+        </li>
         <%
           end_time = Time.parse(event[1]['end_time'])
           end_year = end_time.year
@@ -74,7 +79,6 @@
           x = end_time.hour
           end_hour = "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}"
         %>
-        </li>
         <li>Ends:
           <%=
             "#{end_month}/#{end_day}/#{end_year} at #{end_hour}"
@@ -83,12 +87,12 @@
         <li>
         Tags: <%= event[2].join(' ') %>
         </li>
-        <ul>
+        </ul>
 	    </div>
     </div>
   <% end %>
+  </div>
 	
-</div>
 
 
 </body>
