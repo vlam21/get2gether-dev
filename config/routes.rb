@@ -1,4 +1,5 @@
 Get2gether::Application.routes.draw do
+  match '/you_suck_mo', to:'my_pages#you_suck_mo'
   resources :event_interests
 
   resources :events
@@ -16,6 +17,8 @@ Get2gether::Application.routes.draw do
   match '/explore', to: 'my_pages#explore'
   match '/new_user_tag', to:'my_pages#new_user_tag'
   match '/del_user_tag', to:'my_pages#del_user_tag'
+  match '/create_user_interest',  to: 'user_interests#create'
+  match '/explore', to: 'my_pages#explore'
   
   resources :user_interests
   resources :interests

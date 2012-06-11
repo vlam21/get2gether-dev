@@ -1,2 +1,31 @@
 <%= render 'layouts/header' %>
 
+  <h2>Search for events by interest:</h2>
+  <%= form_tag(explore_path, :method => 'post', :multipart => true) do %>
+    Interest name: <%= text_field_tag "interest_name" %>
+  <% end %>
+  
+
+  <div class="interests">
+    <h2>Popular interests</h2>
+    <% @suggested_interests.each do |i| %>
+        <form class="x" name="<%= i %>" action="/you_suck_mo" method="post">
+        <input type="submit" id="interestsX" value="+" style="background-color:#FFFFFF; border:1px">
+        <%= i %>
+        <input type="hidden" name="fbid" value="<%= session[:fbid] %>" >
+        <input type="hidden" name="interest_name", value="<%= i %>" >
+        </form>
+      <br>
+    <% end %>
+  </div>
+
+  <% if not @query == nil and not @query.empty? %>
+    <% if @fb_event_hashes.length > 0 %>
+      <h2>Events matching interest '<%= @query %>'</h2>
+      <div class="aside">
+        <%= @fb_event_hashes %>
+      </div>
+    <% else %>
+      <h2>No events matching interest '<%= @query %>'</h2>
+    <% end %>
+  <% end %>

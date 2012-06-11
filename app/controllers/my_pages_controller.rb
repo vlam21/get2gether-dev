@@ -1,4 +1,23 @@
 class MyPagesController < ApplicationController
+  def you_suck_mo
+    fbid = params[:fbid]
+    interest_name = params[:interest_name]
+    interest = Interest.find_by_name(interest_name)
+    if interest == nil
+      interest = Interest.new
+      interest.name = interest_name
+      interest.save
+    end
+    ui = UserInterest.find_by_fbid_and_interestid(fbid, interest.id)
+    if ui == nil
+      ui = UserInterest.new
+      ui.fbid = fbid
+      ui.interestid = interest.id
+      ui.save
+    end
+    redirect_to '/home'
+  end
+
   def home
     api_key = '291005200984758'
     app_secret = 'bb8b3415dc375daf2da85894837e67f7'
@@ -104,7 +123,22 @@ class MyPagesController < ApplicationController
   end
 
   def explore
+    @suggested_interests = ['d3', 'studying', 'partying']
 
+    @query = params[:interest_name]
+
+    interest_for_query = Interest.find_by_name(@query)
+    if interest_for_query == nil
+      @fb_event_hashes = []
+      return
+    end
+    interest_id_for_query = interest_for_query.id
+    @event_ids = Event.all.map { |event| event.fbeventid }
+    @event_ids.delete_if do |event_id|
+      ei = EventInterest.find_by_fbeventid_and_interestid(event_id, interest_id_for_query.to_i)
+      ei == nil
+    end
+    @fb_event_hashes = @event_ids.map { |event_id| session[:graph].get_object(event_id) }
   end
 
   def help
