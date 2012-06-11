@@ -2,6 +2,17 @@
 
 <script type="text/javascript">
 $(function() {
+
+    var tags = "<%= Interest.all.map { |i| i.name }.join(' ') %>"
+    tags = tags.split(" ");
+    $("#interest_tags").autocomplete({ source: tags });
+    $(".events").each(function() {
+      //hardcoding the height for now. need to check the height of an image 
+      if ($(this).children().height() < 200) {
+        $(this).children().height(199);
+      }
+    });
+	$("#etitle").height(40);
 	if($("#content").height() < 370) $("#content").height(370);
 	if($("#content").width() < 1100) $("#content").width(1100);
 });
@@ -40,17 +51,17 @@ $(function() {
 
   <% if not @query == nil and not @query.empty? %>
     <% if @fb_event_hashes.length > 0 %>
-      <div class="events"><div>
+      <div class="events" id="etitle"><div>
         <h2>Events matching interest '<%= @query %>'</h2>
       </div></div>
     <% else %>
-      <div class="events"><div>
+      <div class="events" id="etitle"><div>
         <h2>No events matching interest '<%= @query %>'</h2>
       </div></div>
     <% end %>
     <br/>
   <% else %>
-    <div class="events"><div>
+    <div class="events" id="etitle"><div>
       <h2>Events for Popular Interests</h2>
       <br/>
     </div></div>
@@ -58,8 +69,13 @@ $(function() {
 
   <% if @events_to_show != nil
      @events_to_show.each do |event| %>
-		<img class="event_img" src="/assets/gym.png" alt="" >
-    <div class="events">
+     <%
+    	  require 'net/http'
+          uri = URI('http://graph.facebook.com/' <<  event[0].to_s() << "/picture?type=large") 
+    %> 
+
+    <img class="event_img" id="img" src="<%= uri %>" alt="" >
+    <div class="events" id="events">
 	    <div class="module">
 		    <a href="http://www.facebook.com/<%= event[0] %>"><h2><%= event[1]['name']%></h2></a>
         <ul>
