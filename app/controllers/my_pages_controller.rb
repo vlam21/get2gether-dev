@@ -166,6 +166,9 @@ class MyPagesController < ApplicationController
     @suggested_event_ids = @events_to_show.map { |x| x[0] }
   end
 
+
+
+
   def explore
     @suggested_interests = ['testing', 'pizza', 'partying']
 
@@ -173,6 +176,10 @@ class MyPagesController < ApplicationController
 
     interest_for_query = Interest.find_by_name(@query)
     if interest_for_query == nil
+      if @query != nil && !@query.empty?
+        @fb_event_hashes = []
+        return
+      end
       interests_for_query = []
       @suggested_interests.each { |si| interests_for_query << Interest.find_by_name(si) }
     else interests_for_query = [interest_for_query]
