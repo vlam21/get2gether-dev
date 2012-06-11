@@ -22,10 +22,16 @@
   margin-left: 5%;
 }
 
+#create_table tr td
+{
+  padding-bottom: 5px;
+}
+
 #create_table td.name 
 {
   text-align:right;
   font-weight:bold;
+  width: 300px;
 }
 
 h1 { color: #1B9B93;
