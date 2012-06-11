@@ -1,4 +1,11 @@
 <%= render 'layouts/header', :params => { :flag => "explore" }%>
+
+<script type="text/javascript">
+$(function() {
+	if($("#content").height() < 370) $("#content").height(370);
+	if($("#content").width() < 1100) $("#content").width(1100);
+});
+</script>
 <body>
 
   <div id="content">
@@ -24,14 +31,23 @@
 
 
 
- 	<div class="aside">
+ 	<div class="parent">
 
   <% if not @query == nil and not @query.empty? %>
     <% if @fb_event_hashes.length > 0 %>
-      <h2>Events matching interest '<%= @query %>'</h2>
+      <div class="events"><div>
+        <h2>Events matching interest '<%= @query %>'</h2>
+      </div></div>
     <% else %>
-      <h2>No events matching interest '<%= @query %>'</h2>
+      <div class="events"><div>
+        <h2>No events matching interest '<%= @query %>'</h2>
+      </div></div>
     <% end %>
+    <br/>
+  <% else %>
+    <div class="events"><div>
+      <h2>Explore by Interest</h2>
+    </div></div>
   <% end %>
 
 	
