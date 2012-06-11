@@ -67,20 +67,39 @@ class MyPagesController < ApplicationController
     0.upto(suggested_event_ids.length-1) { |i| @events_to_show << [suggested_event_ids[i], suggested_events[i], suggested_event_interests[i]] }
 
     # filter events that have already ended
-    @events_to_show.delete_if { |event| event[1]['end_time'] < Time.now.iso8601 }
-
-    # filter events that are closed and whose hosts are not friends with the current user
-    @events_to_show.delete_if do |event|
-      host_fbid = event[1]['owner']['id']
-      if host_fbid == session[:fbid]
+    @events_to_show.delete_if { |event|
+      if !event[1]
         false
       else
-        event[1]['privacy_type'] == 'CLOSED' && session['graph'].get_connections('me', "friends/#{host_fbid}").empty?
+        event[1]['end_time'] < Time.now.iso8601 
+      end
+    }
+    # filter events that are closed and whose hosts are not friends with the current user
+    @events_to_show.delete_if do |event|
+      if !event[1]
+        false
+      else 
+        host_fbid = event[1]['owner']['id']
+        if host_fbid == session[:fbid]
+          false
+        else
+          event[1]['privacy_type'] == 'CLOSED' && session['graph'].get_connections('me', "friends/#{host_fbid}").empty?
+        end
       end
     end
 
     # sort the events by start time
-    @events_to_show.sort! { |e1, e2| e1[1]['start_time'] <=> e2[1]['start_time'] }
+    @events_to_show.sort! { |e1, e2| 
+      if !e1[1] and !e2[1] 
+        0
+      elsif !e1[1]
+        1
+      elsif !e2[1]
+        -1
+      else
+        e1[1]['start_time'] <=> e2[1]['start_time']
+      end
+    }
 
     # suggested_events is now a list of hashes, each hash representing the fb
     # event to display to the user

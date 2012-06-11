@@ -1,3 +1,13 @@
+<script type="text/javascript">
+	//http://www.facebook.com/#!/events/suggestions/
+
+function setID () {
+	var t =$("#url").val().match(/events\/[0-9]+/g);
+	if(t != null && t[0].length > 7) 
+		$("#fbeid").val(t[0].substring(7, t[0].length));
+}
+</script>
+
 
 <table id="outer_table">
 <tr><td>
@@ -77,22 +87,20 @@
 </tr>
 </table>
 <% end %>
+</td>
 
-</td><td>
+<td style="width:100px;"></td>
+
+<td>
 <h1>Existing Event</h1>
 
-<%= form_tag(create_event_path, :method=>'post', :multipart => true) do %>
+<%= form_tag(create_existing_event_path, :method=>'post', :multipart => true, :onsubmit => "setID();") do %>
+<input type="hidden" id="fbeid" name="fbeid" value=""/>
 <table id="create_table">
 <tr>
   <td class="name">URL</td> 
   <td style="width:10px"></td>
-  <td><%= text_field_tag "eventname" %></td>
-</tr>
-
-<tr>
-  <td class="name">Location</td> 
-  <td></td>
-  <td><%= text_field_tag "eventlocation" %></td>
+  <td><%= text_field_tag "url" %></td>
 </tr>
 
 <tr>

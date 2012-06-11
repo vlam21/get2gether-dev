@@ -13,6 +13,7 @@ Get2gether::Application.routes.draw do
   root :to => 'my_pages#home'
   match '/home',          to: 'my_pages#home'
   match '/create_event',  to: 'events#create'
+  match '/create_existing_event', to: 'events#create_existing'
   match '/maps',  to: 'my_pages#maps'
   match '/explore', to: 'my_pages#explore'
   match '/new_user_tag', to:'my_pages#new_user_tag'

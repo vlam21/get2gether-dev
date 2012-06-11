@@ -47,6 +47,7 @@ class EventsController < ApplicationController
     event_params = {
       :name => params[:eventname],
       :description => params[:description],
+      :location => params[:eventlocation],
       :start_time => Time.new(params[:startyear], params[:startmonth], params[:startday], params[:starthour], params[:startminute]),
       :end_time => Time.new(params[:endyear], params[:endmonth], params[:endday], params[:endhour], params[:endminute]),
       :privacy_type => params[:privacy]
@@ -80,6 +81,54 @@ class EventsController < ApplicationController
       end
     end
   end
+
+
+
+
+
+
+
+  def create_existing
+    worked = false
+    if (session[:graph]).get_object(params[:fbeid]) != false
+      @event = Event.new({ :fbeventid => params[:fbeid].to_i })
+
+      # Record the event's interest tags
+      tags = [params[:tag1], params[:tag2], params[:tag3]]
+      tags.each do |tag|
+        next if tag.strip.empty?
+        tag.downcase!
+        interest = Interest.find_by_name(tag)
+        (Interest.new({ :name => tag })).save if interest == nil
+        if interest == nil 
+          interest = Interest.find_by_name(tag)
+        end
+          EventInterest.new({ :fbeventid => @event.fbeventid, :interestid => interest.id }).save
+      end
+      worked = true
+    end
+
+
+
+      respond_to do |format|
+        if worked
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.json { render json: @event, status: :created, location: @event }
+        else
+          format.html { 
+            render action: "new" 
+          }
+          format.json { render json: @event.errors, status: :unprocessable_entity }
+        end
+      end
+  end
+
+
+
+
+
+
+
 
   # PUT /events/1
   # PUT /events/1.json
