@@ -20,7 +20,8 @@ Get2gether::Application.routes.draw do
   match '/del_user_tag', to:'my_pages#del_user_tag'
   match '/create_user_interest',  to: 'user_interests#create'
   match '/explore', to: 'my_pages#explore'
-  
+  match '/event_created', to: 'events#event_created'
+   
   resources :user_interests
   resources :interests
   resources :users

@@ -15,17 +15,17 @@ h3 { margin: 0 0  1px 0; font: bold 18px Helvetica, Arial, Sans-Serif; letter-sp
 h2 a { text-decoration: none; }
 
 
-#locations { list-style: none; width: 400px; float: left; overflow-x:hidden; overflow-y:scroll; height:500px; }
+#locations { list-style: none; width: 400px; float: left; overflow-x:hidden; overflow-y:auto; height:500px; }
 #locations li { padding: 10px; width: 400px; float: left; z-index: 20; }
 #locations li:hover { background: #4F4646 url(../images/shadow.png) 128px 0 repeat-y; }
-#locations li.selected h3 { color: red; text-shadow: 0 1px 0px rgba(255,255,255,0.3); }
+#locations li.selected h3 { color: #1B9B93; text-shadow: 0 1px 0px rgba(255,255,255,0.3); }
 
 
 
-#more-info { width: 360px; float: left; background: #ffe8b2; padding: 20px; height: 460px;}
+#more-info { width: 360px; float: left; background: #1B9B93; padding: 20px; height: 460px;}
 #more-info * { position: relative; z-index: 40; font-color:black}
-#more-info > div { background: #e9e2bf; -moz-box-shadow: 0 0 14px rgba(70,49,1,0.5); -webkit-box-shadow: 0 0 14px rgba(70,49,1,0.5); padding: 20px; height: 420px; overflow-y:scroll;}
-#more-info > div h2 a { color:#000088;}
+#more-info > div { background: white; -moz-box-shadow: 0 0 14px rgba(70,49,1,0.5); -webkit-box-shadow: 0 0 14px rgba(70,49,1,0.5); padding: 20px; height: 420px; overflow-y:auto;}
+#more-info > div h2 a { color:#1B9B93;}
 #more-info > div p { color:#000000; font-family:"Georgia"; letter-spacing:0px;}
 
 .longdesc { display: none; }

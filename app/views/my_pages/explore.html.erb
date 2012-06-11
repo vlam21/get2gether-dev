@@ -10,26 +10,31 @@ $(function() {
 
   <div id="content">
 		<div class="search">
-			<h2>Search for events by interest:</h2>
+			<h2>Search for events by interest:</h2></br>
 			  <%= form_tag(explore_path, :method => 'post', :multipart => true) do %>
-    			Interest name: <%= text_field_tag "interest_name" %>
+    			<%= text_field_tag "interest_name" %>
+			<input type="Submit" value="Submit" class="button" align="left" />
  			 <% end %>
 		</div>
 
 <div class="interests">
     <h2>Popular interests</h2>
     <% @suggested_interests.each do |i| %>
+	<%= form_tag(explore_path, :method => 'post', :multipart => true) do %>
+	  <input type="hidden" name="interest_name" value="<%= i %>"/>
+          <input style="display:none;" id="itext<%= i %>" type="submit" value="<%= i %>"/>
+ 	<% end %>
+
         <form class="x" name="<%= i %>" action="/you_suck_mo" method="post">
-        <input type="submit" id="interestsX" value="+" style="background-color:#FFFFFF; border:1px">
-        <%= i %>
+        <input type="submit" id="interestsX" value="+" style="background-color:#FFFFFF; border:1px"> 
+		
+<span onclick="$('#itext<%= i %>').click();"> <%= i %> </span> 
         <input type="hidden" name="fbid" value="<%= session[:fbid] %>" >
         <input type="hidden" name="interest_name", value="<%= i %>" >
         </form>
       <br>
     <% end %>
   </div>	
-
-
 
  	<div class="parent">
 
@@ -46,11 +51,11 @@ $(function() {
     <br/>
   <% else %>
     <div class="events"><div>
-      <h2>Explore by Interest</h2>
+      <h2>Events for Popular Interests</h2>
+      <br/>
     </div></div>
   <% end %>
 
-	
   <% if @events_to_show != nil
      @events_to_show.each do |event| %>
 		<img class="event_img" src="/assets/gym.png" alt="" >

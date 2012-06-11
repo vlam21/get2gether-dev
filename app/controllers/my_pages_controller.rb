@@ -166,22 +166,46 @@ class MyPagesController < ApplicationController
     @suggested_event_ids = @events_to_show.map { |x| x[0] }
   end
 
+
+
+
   def explore
-    @suggested_interests = ['d3', 'studying', 'partying']
+    # Find popular interests
+    counts = Hash.new(0)
+    EventInterest.all.each { |ei| counts[ei.interestid] += 1 }
+    popular_interests_descending = counts.to_a.sort { |a, b| b[1] <=> a[1] }
+    popular_interests_descending.delete_if do |i|
+      UserInterest.find_by_fbid_and_interestid(session[:fbid], i[0]) != nil
+    end
+    @res = popular_interests_descending.map { |x| x }
+    @suggested_interests = (popular_interests_descending[0...5]).map do |i|
+      Interest.find(i[0]).name
+    end
 
     @query = params[:interest_name]
 
     interest_for_query = Interest.find_by_name(@query)
     if interest_for_query == nil
-      @fb_event_hashes = []
-      return
+      if @query != nil && !@query.empty?
+        @fb_event_hashes = []
+        return
+      end
+      interests_for_query = []
+      @suggested_interests.each { |si| interests_for_query << Interest.find_by_name(si) }
+    else interests_for_query = [interest_for_query]
     end
-    interest_id_for_query = interest_for_query.id
+  
+    interest_ids_for_query = interests_for_query.map { |x| x.id }
     @event_ids = Event.all.map { |event| event.fbeventid }
+    @res = @event_ids.map { |x| x }
     @event_ids.delete_if do |event_id|
-      ei = EventInterest.find_by_fbeventid_and_interestid(event_id, interest_id_for_query.to_i)
-      ei == nil
+      ei2 = interest_ids_for_query.any? { |interest_id_for_query| 
+        ei = EventInterest.find_by_fbeventid_and_interestid(event_id, interest_id_for_query.to_i)
+        ei != nil
+      }
+      !ei2
     end
+
     @fb_event_hashes = @event_ids.map { |event_id| session[:graph].get_object(event_id) }
     @suggested_event_interests = @event_ids.map do |event_id|
       res = []
