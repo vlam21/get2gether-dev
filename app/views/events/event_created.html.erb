@@ -1,0 +1,9 @@
+<head><%= render 'layouts/header', :params => { :flag => "event" }%></head>
+
+<br>
+<h2>Event Successfully Created</h2>
+
+<%= form_tag(new_event_path, :method=>'get' ) do %>
+<%= submit_tag 'Back', :class => "button"%>
+<% end %>
+

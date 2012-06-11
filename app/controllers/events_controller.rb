@@ -73,20 +73,15 @@ class EventsController < ApplicationController
     # Record the Ruby event with fbid in our table
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: @event }
+        redirect_to event_created_path and return
+        #format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        #format.json { render json: @event, status: :created, location: @event }
       else
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
-
-
-
-
-
-
 
   def create_existing
     worked = false
@@ -109,10 +104,11 @@ class EventsController < ApplicationController
       worked = true
     end
 
-
-
+      redirect_to event_created_path and return
+    
       respond_to do |format|
         if worked
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
           format.html { redirect_to @event, notice: 'Event was successfully created.' }
           format.json { render json: @event, status: :created, location: @event }
         else
@@ -124,8 +120,8 @@ class EventsController < ApplicationController
       end
   end
 
-
-
+  def event_created
+  end
 
 
 
