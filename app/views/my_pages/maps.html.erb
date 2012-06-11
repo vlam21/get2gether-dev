@@ -80,13 +80,7 @@ function get_geo(geo_index, eventsArray) {
 	places.search(req, function(result, status) {
 		var e = eventsArray[geo_index];
 		if(status == "ZERO_RESULTS") {
-			alert(e.location + " not found. id = " + e.fbeid);
-			if(geo_index < eventsArray.length-1) {
-				get_geo(geo_index+1, eventsArray); 
-			}
-			else {
-				populate_events_list(eventsArray);
-			}
+			//alert(e.location + " not found. id = " + e.fbeid);
 		}
 		else {
 			var loc = result[0]['geometry']['location'];

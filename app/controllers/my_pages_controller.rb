@@ -183,6 +183,14 @@ class MyPagesController < ApplicationController
       ei == nil
     end
     @fb_event_hashes = @event_ids.map { |event_id| session[:graph].get_object(event_id) }
+    @suggested_event_interests = @event_ids.map do |event_id|
+      res = []
+      EventInterest.find_all_by_fbeventid(event_id).each { |ei| res << Interest.find(ei.interestid).name }
+      res
+    end
+    @events_to_show = [] # [ <event id> , <fb event object as hash> , <list of interest tags> ]
+    0.upto(@event_ids.length-1) { |i| @events_to_show << [@event_ids[i], @fb_event_hashes[i], @suggested_event_interests[i]] }
+
   end
 
   def help
