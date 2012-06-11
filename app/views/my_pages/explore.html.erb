@@ -10,9 +10,10 @@ $(function() {
 
   <div id="content">
 		<div class="search">
-			<h2>Search for events by interest:</h2>
+			<h2>Search for events by interest:</h2></br>
 			  <%= form_tag(explore_path, :method => 'post', :multipart => true) do %>
-    			Interest name: <%= text_field_tag "interest_name" %>
+    			<%= text_field_tag "interest_name" %>
+			<input type="Submit" value="Submit" class="button" align="left" />
  			 <% end %>
 		</div>
 

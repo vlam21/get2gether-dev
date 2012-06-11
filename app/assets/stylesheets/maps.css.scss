@@ -18,7 +18,7 @@ h2 a { text-decoration: none; }
 #locations { list-style: none; width: 400px; float: left; overflow-x:hidden; overflow-y:scroll; height:500px; }
 #locations li { padding: 10px; width: 400px; float: left; z-index: 20; }
 #locations li:hover { background: #4F4646 url(../images/shadow.png) 128px 0 repeat-y; }
-#locations li.selected h3 { color: red; text-shadow: 0 1px 0px rgba(255,255,255,0.3); }
+#locations li.selected h3 { color: #1B9B93; text-shadow: 0 1px 0px rgba(255,255,255,0.3); }
 
 
 
