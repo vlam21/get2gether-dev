@@ -92,6 +92,7 @@ class EventsController < ApplicationController
     worked = false
     if (session[:graph]).get_object(params[:fbeid]) != false
       @event = Event.new({ :fbeventid => params[:fbeid].to_i })
+      @event.save
 
       # Record the event's interest tags
       tags = [params[:tag1], params[:tag2], params[:tag3]]
