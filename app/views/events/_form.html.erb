@@ -6,6 +6,55 @@ function setID () {
 	if(t != null && t[0].length > 7) 
 		$("#fbeid").val(t[0].substring(7, t[0].length));
 }
+
+function checkForm() {
+	var d;
+	d = $("#start_date").val();
+	if(!d.match(/^[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9][0-9][0-9]/g)) {
+		alert("Please enter a start date in mm/dd/yyyy format");
+		return false;
+	}
+
+	$("#startmonth").val(parseInt(d.substring(0,2)));
+	$("#startday").val(parseInt(d.substring(3,5)));
+	$("#startyear").val(parseInt(d.substring(6,10)));
+
+
+	d = $("#start_time").val();
+	if(!d.match(/^(0[0-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
+		alert("Please enter a start time in hh:mm [am/pm] format");
+		return false;
+	}
+
+	$("#startminute").val(parseInt(d.substring(3,5)));
+	$("#starthour").val(parseInt(d.substring(0,2)=="12"?0:d.substring(0,2)) + (d.substring(6,8) == "am"?0:12));
+
+
+
+	d = $("#end_date").val();
+	if(!d.match(/^[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9][0-9][0-9]/g)) {
+		alert("Please enter an end date in mm/dd/yyyy format");
+		return false;
+	}
+
+	$("#endmonth").val(parseInt(d.substring(0,2)));
+	$("#endday").val(parseInt(d.substring(3,5)));
+	$("#endyear").val(parseInt(d.substring(6,10)));
+
+
+
+	d = $("#end_time").val();
+	if(!d.match(/^(0[0-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
+		alert("Please enter an end time in hh:mm [am/pm] format");
+		return false;
+	}
+
+	$("#endminute").val(parseInt(d.substring(3,5)));
+	$("#endhour").val(parseInt(d.substring(0,2)=="12"?0:d.substring(0,2)) + (d.substring(6,8) == "am"?0:12));
+
+	return true;
+
+}
 </script>
 
 
@@ -13,7 +62,8 @@ function setID () {
 <tr><td>
 <h1>New Event</h1>
 
-<%= form_tag(create_event_path, :method=>'post', :multipart => true) do %>
+<%= form_tag(create_event_path, :method=>'post', :multipart => true, :onsubmit => "return checkForm();" ) do %>
+
 <table id="create_table">
 <tr>
   <td class="name">Name</td> 
@@ -34,35 +84,45 @@ function setID () {
 </tr>
 
 <tr>
-  <td class="name">Start date</td>
+  <td class="name">Start date (mm/dd/yyyy)</td>
   <td></td> 
-  <td><%= select_tag("startmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
-  <%= select_tag("startday", options_for_select([["Day", "Day"]] + (1..31).to_a.map { |x| [x, x] })) %>
-    <%= select_tag("startyear", options_for_select([["Year", "Year"]] + (2012..2016).to_a.map { |x| [x, x] })) %></td>
-</tr>
-
-<tr>
-  <td class="name">Start time</td>
-  <td></td>
-  <td><%= select_tag("starthour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
-    <%= select_tag("startminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
+  <td>
+  <%= text_field_tag "start_date" %> 
+  <input type="hidden" id="startmonth" name="startmonth"/>
+  <input type="hidden" id="startday" name="startday"/>
+  <input type="hidden" id="startyear" name="startyear"/>
   </td>
 </tr>
 
 <tr>
-  <td class="name">End date</td>
+  <td class="name">Start time (hh:mm [am/pm])</td>
   <td></td>
-  <td><%= select_tag("endmonth", options_for_select([["Month", "Month"]] + (1..12).to_a.map { |x| [x, x] })) %>
-    <%= select_tag("endday", options_for_select([["Day", "Day"]] + (1..31).to_a.map { |x| [x, x] })) %>
-    <%= select_tag("endyear", options_for_select([["Year", "Year"]] + (2012..2016).to_a.map { |x| [x, x] })) %>
+  <td>
+  <%= text_field_tag "start_time" %> 
+  <input type="hidden" id="starthour" name="starthour"/>
+  <input type="hidden" id="startminute" name="startminute"/>
+
   </td>
 </tr>
 
 <tr>
-  <td class="name">End time</td>
+  <td class="name">End date (mm/dd/yyyy)</td>
   <td></td>
-  <td><%= select_tag("endhour", options_for_select([["Hour", "Hour"]] + (0..23).to_a.map { |x| [ "#{ (x%12)==0?12:(x%12) } #{ x<12?'AM':'PM'}", x]})) %>
-    <%= select_tag("endminute", options_for_select([["Minute", "Minute"]] + (0...60).to_a.map { |x| [x, x] })) %>
+  <td>
+  <%= text_field_tag "end_date" %> 
+  <input type="hidden" id="endmonth" name="endmonth"/>
+  <input type="hidden" id="endday" name="endday"/>
+  <input type="hidden" id="endyear" name="endyear"/>
+  </td>
+</tr>
+
+<tr>
+  <td class="name">End time (hh:mm [am/pm])</td>
+  <td></td>
+  <td>
+  <%= text_field_tag "end_time" %> 
+  <input type="hidden" id="endhour" name="endhour"/>
+  <input type="hidden" id="endminute" name="endminute"/>
   </td>
 </tr>
 

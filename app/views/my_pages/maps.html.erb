@@ -81,11 +81,13 @@ function get_geo(geo_index, eventsArray) {
 		var e = eventsArray[geo_index];
 		if(status == "ZERO_RESULTS") {
 			//alert(e.location + " not found. id = " + e.fbeid);
+			e.goodLoc = false;
 		}
 		else {
 			var loc = result[0]['geometry']['location'];
 			e.lat = loc.lat();
 			e.lng = loc.lng();
+			e.goodLoc = true;
 		}
 		geo_count++;
 		if(geo_count >= eventsArray.length) {
@@ -147,7 +149,8 @@ function create_marker(latlng, li) {
 
 function populate_events_list(list) {
 	for(var i = 0; i < list.length; i++) {
-		locations.append(create_event(list[i], i));
+		if(list[i].goodLoc)
+			locations.append(create_event(list[i], i));
 	}
 	$("#locations li").click(select_event);
 	$("#locations li:first").trigger("click");
