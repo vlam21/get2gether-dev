@@ -36,6 +36,12 @@ function debug (str) {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	var map = new google.maps.Map($("#map_canvas")[0], myOptions);
+	new google.maps.Marker({
+		position: cse_building,
+		map: map,
+		icon: "marker_home.jpg"
+	});
+
 
 	var eventsArray = [];
 	var markersArray = [];
