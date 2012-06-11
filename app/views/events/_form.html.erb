@@ -10,7 +10,7 @@ function setID () {
 function checkForm() {
 	var d;
 	d = $("#start_date").val();
-	if(!d.match(/^[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9][0-9][0-9]/g)) {
+	if(!d.match(/^(0[1-9]|1[0-2])\/([0-2][0-9]|3[0-1])\/[1-2][0-9][0-9][0-9]/g)) {
 		alert("Please enter a start date in mm/dd/yyyy format");
 		return false;
 	}
@@ -21,7 +21,7 @@ function checkForm() {
 
 
 	d = $("#start_time").val();
-	if(!d.match(/^(0[0-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
+	if(!d.match(/^(0[1-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
 		alert("Please enter a start time in hh:mm [am/pm] format");
 		return false;
 	}
@@ -32,7 +32,7 @@ function checkForm() {
 
 
 	d = $("#end_date").val();
-	if(!d.match(/^[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9][0-9][0-9]/g)) {
+	if(!d.match(/^(0[1-9]|1[0-2])\/([0-2][0-9]|3[0-1])\/[1-2][0-9][0-9][0-9]/g)) {
 		alert("Please enter an end date in mm/dd/yyyy format");
 		return false;
 	}
@@ -44,7 +44,7 @@ function checkForm() {
 
 
 	d = $("#end_time").val();
-	if(!d.match(/^(0[0-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
+	if(!d.match(/^(0[1-9]|1[0-2]):[0-5][0-9] [ap]m/g)) {
 		alert("Please enter an end time in hh:mm [am/pm] format");
 		return false;
 	}
@@ -55,6 +55,45 @@ function checkForm() {
 	return true;
 
 }
+
+$(function() {	
+
+	$("#start_time").focus(function() { $(this).val(""); $(this).css("color", "black") });
+	$("#end_time").focus(function() { $(this).val(""); $(this).css("color", "black") });
+	$("#start_date").focus(function() { $(this).val(""); $(this).css("color", "black") });
+	$("#end_date").focus(function() { $(this).val(""); $(this).css("color", "black") });
+
+	$("#start_time").blur(function() { 
+		if($(this).val() == "") { 
+			$(this).val("hh:mm [am/pm]");  
+			$(this).css("color", "#888888");
+		}
+	});
+	$("#end_time").blur(function() { 
+		if($(this).val() == "") { 
+			$(this).val("hh:mm [am/pm]");  
+			$(this).css("color", "#888888");
+		}
+	});
+	$("#start_date").blur(function() { 
+		if($(this).val() == "") { 
+			$(this).val("mm/dd/yyyy");  
+			$(this).css("color", "#888888");
+		}
+	});
+	$("#end_date").blur(function() { 
+		if($(this).val() == "") { 
+			$(this).val("mm/dd/yyyy");  
+			$(this).css("color", "#888888");
+		}
+	});
+
+	$("#start_time").blur();
+	$("#end_time").blur();
+	$("#start_date").blur();
+	$("#end_date").blur();
+
+});
 </script>
 
 
@@ -84,7 +123,7 @@ function checkForm() {
 </tr>
 
 <tr>
-  <td class="name">Start date (mm/dd/yyyy)</td>
+  <td class="name">Start date </td>
   <td></td> 
   <td>
   <%= text_field_tag "start_date" %> 
@@ -95,7 +134,7 @@ function checkForm() {
 </tr>
 
 <tr>
-  <td class="name">Start time (hh:mm [am/pm])</td>
+  <td class="name">Start time</td>
   <td></td>
   <td>
   <%= text_field_tag "start_time" %> 
@@ -106,7 +145,7 @@ function checkForm() {
 </tr>
 
 <tr>
-  <td class="name">End date (mm/dd/yyyy)</td>
+  <td class="name">End date </td>
   <td></td>
   <td>
   <%= text_field_tag "end_date" %> 
@@ -117,7 +156,7 @@ function checkForm() {
 </tr>
 
 <tr>
-  <td class="name">End time (hh:mm [am/pm])</td>
+  <td class="name">End time </td>
   <td></td>
   <td>
   <%= text_field_tag "end_time" %> 
