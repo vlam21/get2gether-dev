@@ -54,7 +54,11 @@
 
   <div id="parent">
   <% @events_to_show.each do |event| %>
-		<img class="event_img" id="img" src="/assets/gym.png" alt="" >
+    <%
+      require 'net/http'
+      uri = URI('http://graph.facebook.com/' <<  event[0].to_s() << "/picture?type=large") 
+    %> 
+    <img class="event_img" id="img" src=<%= uri %> alt="" >
     <div class="events" id="events">
 	    <div class="module" id="module">
 		    <a href="http://www.facebook.com/<%= event[0] %>"><h2><%= event[1]['name']%></h2></a>
