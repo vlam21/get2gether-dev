@@ -5,7 +5,7 @@ $(function() {
 
     var tags = "<%= Interest.all.map { |i| i.name }.join(' ') %>"
     tags = tags.split(" ");
-    $("#interest_tags").autocomplete({ source: tags });
+    $("#interest_name").autocomplete({ source: tags });
     $(".events").each(function() {
       //hardcoding the height for now. need to check the height of an image 
       if ($(this).children().height() < 200) {

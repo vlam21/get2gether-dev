@@ -93,6 +93,10 @@ $(function() {
 	$("#start_date").blur();
 	$("#end_date").blur();
 
+    var tags = "<%= Interest.all.map { |i| i.name }.join(' ') %>"
+    tags = tags.split(" ");
+    $(".tagauto").each(function() { $(this).autocomplete({ source: tags })});
+
 });
 </script>
 
@@ -174,9 +178,9 @@ $(function() {
 <tr>
   <td class="name">Enter up to three interest tags</td>
   <td></td>
-  <td><%= text_field_tag "tag1" %> <br>
-  <%= text_field_tag "tag2" %> <br>
-  <%= text_field_tag "tag3" %> </td>
+  <td><%= text_field_tag "tag1",nil, :class => "tagauto" %> <br>
+  <%= text_field_tag "tag2", nil, :class => "tagauto" %> <br>
+  <%= text_field_tag "tag3", nil, :class => "tagauto" %> </td>
 </tr>
 
 <tr>
@@ -205,9 +209,9 @@ $(function() {
 <tr>
   <td class="name">Enter up to three interest tags</td>
   <td></td>
-  <td><%= text_field_tag "tag1" %> <br>
-  <%= text_field_tag "tag2" %> <br>
-  <%= text_field_tag "tag3" %> </td>
+  <td><%= text_field_tag "tag1",nil, :class => "tagauto"%> <br>
+  <%= text_field_tag "tag2" ,nil, :class => "tagauto" %> <br>
+  <%= text_field_tag "tag3",nil, :class => "tagauto" %> </td>
 </tr>
 
 <tr>
